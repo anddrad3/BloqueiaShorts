@@ -268,6 +268,23 @@ class MainActivity : AppCompatActivity() {
         sheet.show()
     }
 
+    private fun isXiaomi() = android.os.Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true) ||
+        android.os.Build.BRAND.lowercase() in setOf("xiaomi", "redmi", "poco")
+
+    /** Abre "Outras permissões" da MIUI/HyperOS; se não existir, as informações do app. */
+    private fun openXiaomiPermissions() {
+        val miui = Intent("miui.intent.action.APP_PERM_EDITOR")
+            .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
+            .putExtra("extra_pkgname", packageName)
+        try {
+            startActivity(miui)
+        } catch (e: Exception) {
+            startActivity(
+                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, android.net.Uri.parse("package:$packageName"))
+            )
+        }
+    }
+
     /** Passo a passo para liberar a "Configuração restrita" do Android 13+. */
     private fun showRestrictedSheet() {
         val (sheet, view) = openSheet(R.layout.sheet_restricted)
@@ -308,6 +325,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSecretCodeSheet(forHiding: Boolean) {
         val (sheet, view) = openSheet(R.layout.sheet_secret_code)
+
+        if (isXiaomi()) {
+            view.findViewById<View>(R.id.xiaomiBox).visibility = View.VISIBLE
+            view.findViewById<MaterialButton>(R.id.btnXiaomiPerms).setOnClickListener {
+                haptic(it)
+                withPin("Abrir permissões") {
+                    Session.allowSystemScreens()
+                    openXiaomiPermissions()
+                }
+            }
+        }
 
         val primary = view.findViewById<MaterialButton>(R.id.btnSheetPrimary)
         val secondary = view.findViewById<MaterialButton>(R.id.btnSheetSecondary)

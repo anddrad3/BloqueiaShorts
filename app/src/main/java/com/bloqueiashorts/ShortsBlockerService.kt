@@ -152,7 +152,9 @@ class ShortsBlockerService : AccessibilityService() {
             return findShortVideoUrl(pkg, root)?.let { Detection("site $it", Action.BACK) }
         }
 
-        if (pkg in Rules.PROTECTED_SYSTEM_APPS && Prefs.isTamperProtectionActive(this)) {
+        if (pkg in Rules.PROTECTED_SYSTEM_APPS && Prefs.isTamperProtectionActive(this) &&
+            !Session.systemScreensAllowed()
+        ) {
             val appName = getString(R.string.app_name)
             val mentionsApp = root.findAccessibilityNodeInfosByText(appName).any {
                 // Ignora o "Instalador BloqueiaShorts", que pode ser removido livremente.

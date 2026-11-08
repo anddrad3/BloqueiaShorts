@@ -21,4 +21,13 @@ object Session {
     }
 
     fun isUnlocked() = SystemClock.elapsedRealtime() < unlockedUntil
+
+    /** Libera por pouco tempo as telas do sistema que a proteção bloqueia (aberta pelo próprio app). */
+    private var systemScreensUntil = 0L
+
+    fun allowSystemScreens(ms: Long = 60_000L) {
+        systemScreensUntil = SystemClock.elapsedRealtime() + ms
+    }
+
+    fun systemScreensAllowed() = SystemClock.elapsedRealtime() < systemScreensUntil
 }

@@ -186,7 +186,8 @@ Depois disso, o Shizuku e o SAI podem ser desinstalados.
 2. **Evite que o sistema desligue o app** (importante em Xiaomi, Samsung, Motorola, Huawei):
    segure o ícone → **Informações do app** →
    - **Inicialização automática** → ligada (Xiaomi);
-   - **Bateria / Economia de bateria** → **Sem restrições**.
+   - **Bateria / Economia de bateria** → **Sem restrições**;
+   - **Outras permissões → "Exibir janelas pop-up enquanto executado em segundo plano"** → permitir (Xiaomi — necessário para o código do discador abrir o app).
 3. **(Opcional) Defina uma senha** em **Segurança → Definir senha** — e **anote-a**.
 4. **Teste:** abra um Short no YouTube. O app deve voltar sozinho em menos de 1 segundo.
 
@@ -218,6 +219,13 @@ Esconde o ícone do BloqueiaShorts da tela inicial e da gaveta de apps. **O bloq
 Exemplo: senha `2580` → digite `*#*#2580#*#*`. O app abre na hora, já desbloqueado.
 Não faz ligação e não aparece no histórico. Se você trocar a senha, o código muda junto.
 Use **"Copiar código de reabertura"** no app para copiar o código pronto e colar no discador.
+
+> **Xiaomi / Redmi / Poco:** se o código **some do discador mas o app não abre**, a Xiaomi está bloqueando
+> apps que abrem telas em segundo plano. Vá em *Informações do app → Outras permissões* e permita
+> **"Exibir janelas pop-up enquanto executado em segundo plano"** (o app tem um botão que abre essa tela,
+> em *Modo invisível → Como reabrir o app*). Faça isso **antes** de esconder o ícone.
+>
+> O código só funciona com o serviço de Acessibilidade ligado e com uma senha definida.
 
 Remover a senha mostra o ícone de novo automaticamente.
 
