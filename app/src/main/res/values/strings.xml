@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BloqueiaShorts</string>
+    <string name="service_label">BloqueiaShorts</string>
+    <string name="service_description">Bloqueia vídeos curtos (YouTube Shorts, Reels, TikTok, Kwai e sites de vídeo curto no navegador). Com senha definida, também impede desativar o app pelas configurações. Nenhum dado é coletado ou enviado.</string>
+</resources>

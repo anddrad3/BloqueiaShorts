@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/sheetContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/sheetIcon"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_circle"
+            android:backgroundTint="@color/state_off_container"
+            android:importantForAccessibility="no"
+            android:padding="18dp"
+            android:src="@drawable/ic_lock"
+            android:tint="@color/state_off" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="“Configuração restrita”"
+            android:textColor="@color/on_surface"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:text="No Android 13 ou mais novo, apps instalados fora de uma loja (pelo GitHub, WhatsApp, navegador) precisam ser liberados uma vez antes de usar a Acessibilidade. Escolha o caso do seu celular:"
+            android:textColor="@color/muted"
+            android:textSize="14sp" />
+
+        <!-- Caso 1: maioria dos celulares -->
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox" android:importantForAccessibility="no" android:src="@drawable/ic_shield_check" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Samsung, Motorola, Pixel e outros" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="1. Tente ligar o BloqueiaShorts em Acessibilidade uma vez (vai aparecer o aviso).\n2. Segure o ícone do app → Informações do app.\n3. Toque nos ⋮ (canto superior direito) → “Permitir configurações restritas”.\n4. Volte em Acessibilidade e ligue a chave." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Caso 2: Xiaomi com a opção -->
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox" android:importantForAccessibility="no" android:src="@drawable/ic_info" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Xiaomi, Redmi, Poco (tente primeiro)" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="1. Tente ligar em Acessibilidade uma vez.\n2. Segure o ícone → Informações do app.\n3. Toque nos ⋮ → “Informações do app” (abre a tela original do Android).\n4. Nessa tela, toque nos ⋮ de novo → “Permitir configurações restritas”.\n\nSe a opção não aparecer, a sua versão escondeu ela. Use o caminho abaixo." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Caso 3: Shizuku + SAI -->
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_key" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Sem a opção: Shizuku + SAI (sem PC)" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="Instala o app do mesmo jeito que um computador faria, sem a trava.\n\n1. Instale “Shizuku” e “SAI (Split APKs Installer)” pela Play Store.\n2. Ative as Opções do desenvolvedor: Configurações → Sobre o telefone → toque 7 vezes em “Versão do sistema” (ou “Versão MIUI/HyperOS”).\n3. Em Opções do desenvolvedor, ligue “Depuração por Wi-Fi”. Na Xiaomi, ligue também “Instalar via USB”.\n4. Abra o Shizuku → “Parear” (depuração sem fio). Em Depuração por Wi-Fi, toque em “Parear com código” e digite o código na notificação do Shizuku. Depois, toque em “Iniciar” no Shizuku.\n5. Abra o SAI → Configurações → Instalador → escolha “Shizuku” e permita.\n6. Desinstale o BloqueiaShorts e instale o APK de novo pelo SAI (“Instalar APKs”).\n7. Ligue o BloqueiaShorts em Acessibilidade. Pronto!" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Caso 4: PC -->
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_dialpad" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Com um computador (adb)" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="Com a depuração USB ligada, desinstale o app e rode no computador:\nadb install BloqueiaShorts.apk\nInstalado assim, não aparece a trava." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSheetPrimary"
+            style="@style/PillButton"
+            android:layout_marginTop="24dp"
+            android:text="Abrir informações do app" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSheetSecondary"
+            style="@style/PillButton.Text"
+            android:layout_marginTop="4dp"
+            android:text="Fechar" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

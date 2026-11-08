@@ -1,0 +1,21 @@
+# Android / Gradle
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/app/build/
+/captures
+.externalNativeBuild
+.cxx
+
+# Chaves de assinatura (NUNCA publicar)
+*.jks
+*.keystore
+keystore.properties
+
+# Arquivos gerados para distribuição
+*.apk
+*.zip
+distribuicao/platform-tools/

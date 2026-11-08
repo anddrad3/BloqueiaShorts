@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modo claro -->
+<resources>
+    <color name="bg">#FFF7F5FC</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="surface_variant">#FFF1EEF8</color>
+    <color name="on_surface">#FF1B1530</color>
+    <color name="muted">#FF6C6585</color>
+    <color name="outline">#FFE6E1F0</color>
+
+    <color name="brand">#FFE0338A</color>
+    <color name="on_brand">#FFFFFFFF</color>
+    <color name="brand_container">#FFFFE3F0</color>
+    <color name="on_brand_container">#FF6B0F3E</color>
+    <color name="accent">#FF7C3AED</color>
+    <color name="accent_container">#FFEDE5FF</color>
+
+    <color name="state_on">#FF16A34A</color>
+    <color name="state_on_container">#FFDCFCE7</color>
+    <color name="state_paused">#FFD97706</color>
+    <color name="state_paused_container">#FFFEF3C7</color>
+    <color name="state_off">#FFE11D48</color>
+    <color name="state_off_container">#FFFFE4E8</color>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modo escuro -->
+<resources>
+    <color name="bg">#FF0E0A18</color>
+    <color name="surface">#FF191428</color>
+    <color name="surface_variant">#FF231C36</color>
+    <color name="on_surface">#FFF4F1FB</color>
+    <color name="muted">#FFA59EBD</color>
+    <color name="outline">#FF2D2542</color>
+
+    <color name="brand">#FFFF6FB0</color>
+    <color name="on_brand">#FF2A0718</color>
+    <color name="brand_container">#FF3D1229</color>
+    <color name="on_brand_container">#FFFFD6E8</color>
+    <color name="accent">#FFB197FC</color>
+    <color name="accent_container">#FF2C2150</color>
+
+    <color name="state_on">#FF4ADE80</color>
+    <color name="state_on_container">#FF0F2E1D</color>
+    <color name="state_paused">#FFFBBF24</color>
+    <color name="state_paused_container">#FF33270A</color>
+    <color name="state_off">#FFFB7185</color>
+    <color name="state_off_container">#FF3A1520</color>
+</resources>

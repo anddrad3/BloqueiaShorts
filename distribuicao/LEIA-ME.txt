@@ -1,0 +1,18 @@
+BLOQUEIASHORTS - COMO INSTALAR
+==============================
+
+Jeito 1 - pelo computador (recomendado, funciona em qualquer celular)
+  Windows:     dois cliques em "Instalar-Windows.bat"
+  Mac/Linux:   abra o Terminal nesta pasta e rode:  bash instalar-mac-linux.sh
+
+  O instalador baixa a ferramenta oficial do Google (adb), conecta no
+  celular por cabo ou Wi-Fi e instala o app. Instalado assim, o Android
+  NAO mostra o aviso "Configuracao restrita".
+
+Jeito 2 - direto no celular
+  Copie o BloqueiaShorts.apk para o celular e instale.
+  No Android 13 ou mais novo vai aparecer "Configuracao restrita" ao ligar
+  a Acessibilidade. Para liberar, abra o app e toque em
+  "Apareceu 'Configuracao restrita'?" - ele mostra o passo a passo.
+
+Privacidade: o app nao coleta nem envia nenhum dado.

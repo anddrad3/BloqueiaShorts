@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="32dp">
+
+        <!-- Cabeçalho -->
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_logo_shape" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/app_name"
+                    android:textColor="@color/on_surface"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Menos rolagem, mais vida."
+                    android:textColor="@color/muted"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnHelp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_circle"
+                android:backgroundTint="@color/surface_variant"
+                android:contentDescription="Como o app funciona"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_info"
+                android:stateListAnimator="@animator/press"
+                android:tint="@color/accent" />
+        </LinearLayout>
+
+        <!-- Cartão de status -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/heroCard"
+            style="@style/Card"
+            android:layout_marginTop="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <FrameLayout
+                    android:layout_width="132dp"
+                    android:layout_height="132dp">
+
+                    <View
+                        android:id="@+id/pulseRing"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_circle" />
+
+                    <FrameLayout
+                        android:id="@+id/statusCircle"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_circle">
+
+                        <ImageView
+                            android:id="@+id/statusIcon"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no" />
+                    </FrameLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/statusTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/on_surface"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/statusSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/muted"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnMain"
+                    style="@style/PillButton"
+                    android:layout_marginTop="22dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRestricted"
+                    style="@style/PillButton.Text"
+                    android:layout_marginTop="4dp"
+                    android:text="Apareceu “Configuração restrita”?"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Segurança -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/securityCard"
+            style="@style/Card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:paddingBottom="6dp">
+
+                <TextView
+                    style="@style/SectionTitle"
+                    android:text="Segurança" />
+
+                <LinearLayout
+                    android:id="@+id/rowPin"
+                    style="@style/Row">
+
+                    <ImageView
+                        style="@style/RowIconBox"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_key" />
+
+                    <LinearLayout style="@style/RowTexts">
+
+                        <TextView
+                            android:id="@+id/rowPinTitle"
+                            style="@style/RowTitle" />
+
+                        <TextView
+                            android:id="@+id/rowPinSub"
+                            style="@style/RowSub" />
+                    </LinearLayout>
+
+                    <ImageView style="@style/RowChevron" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/dividerRemove"
+                    style="@style/Divider" />
+
+                <LinearLayout
+                    android:id="@+id/rowRemovePin"
+                    style="@style/Row">
+
+                    <ImageView
+                        style="@style/RowIconBox"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_delete" />
+
+                    <LinearLayout style="@style/RowTexts">
+
+                        <TextView
+                            style="@style/RowTitle"
+                            android:text="Remover senha" />
+
+                        <TextView
+                            style="@style/RowSub"
+                            android:text="Qualquer pessoa poderá desligar o bloqueio" />
+                    </LinearLayout>
+
+                    <ImageView style="@style/RowChevron" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Modo invisível -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/stealthCard"
+            style="@style/Card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="6dp">
+
+                <TextView
+                    style="@style/SectionTitle"
+                    android:text="Modo invisível" />
+
+                <LinearLayout
+                    android:id="@+id/rowHide"
+                    style="@style/Row">
+
+                    <ImageView
+                        style="@style/RowIconBox.Accent"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_eye_off" />
+
+                    <LinearLayout style="@style/RowTexts">
+
+                        <TextView
+                            style="@style/RowTitle"
+                            android:text="Esconder ícone" />
+
+                        <TextView
+                            android:id="@+id/rowHideSub"
+                            style="@style/RowSub" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchHide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false" />
+                </LinearLayout>
+
+                <View style="@style/Divider" />
+
+                <LinearLayout
+                    android:id="@+id/rowHowItWorks"
+                    style="@style/Row">
+
+                    <ImageView
+                        style="@style/RowIconBox.Accent"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_dialpad" />
+
+                    <LinearLayout style="@style/RowTexts">
+
+                        <TextView
+                            style="@style/RowTitle"
+                            android:text="Como reabrir o app" />
+
+                        <TextView
+                            style="@style/RowSub"
+                            android:text="Código secreto no discador: *#*#SUASENHA#*#*" />
+                    </LinearLayout>
+
+                    <ImageView style="@style/RowChevron" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/dividerCopyCode"
+                    style="@style/Divider" />
+
+                <LinearLayout
+                    android:id="@+id/rowCopyCode"
+                    style="@style/Row">
+
+                    <ImageView
+                        style="@style/RowIconBox.Accent"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_copy" />
+
+                    <LinearLayout style="@style/RowTexts">
+
+                        <TextView
+                            style="@style/RowTitle"
+                            android:text="Copiar código de reabertura" />
+
+                        <TextView
+                            style="@style/RowSub"
+                            android:text="Pede a senha e copia o código pronto para colar no discador" />
+                    </LinearLayout>
+
+                    <ImageView style="@style/RowChevron" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Ajuda -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/helpCard"
+            style="@style/Card">
+
+            <LinearLayout
+                android:id="@+id/rowHelp"
+                style="@style/Row">
+
+                <ImageView
+                    style="@style/RowIconBox.Accent"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_info" />
+
+                <LinearLayout style="@style/RowTexts">
+
+                    <TextView
+                        style="@style/RowTitle"
+                        android:text="Como o app funciona" />
+
+                    <TextView
+                        style="@style/RowSub"
+                        android:text="Bloqueio, senha, proteção e modo invisível" />
+                </LinearLayout>
+
+                <ImageView style="@style/RowChevron" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- O que é bloqueado -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/blockedCard"
+            style="@style/Card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="18dp">
+
+                <TextView
+                    style="@style/SectionTitle"
+                    android:text="O que é bloqueado" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    app:chipSpacingHorizontal="8dp"
+                    app:chipSpacingVertical="4dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="Nada é coletado ou enviado. Tudo fica no seu celular."
+            android:textColor="@color/muted"
+            android:textSize="12sp" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
