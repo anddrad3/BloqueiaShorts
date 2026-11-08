@@ -70,6 +70,18 @@ object Rules {
     val SECRET_CODE = Regex("""^\*#\*#(\d{4,12})#\*#\*$""")
 
     /**
+     * Textos de ações que desligam ou removem o app (em minúsculas, PT e EN).
+     * A proteção só age quando um deles aparece numa tela que tem "BloqueiaShorts" como título.
+     */
+    val DANGER_ACTIONS: List<String> = listOf(
+        "desinstalar", "uninstall",
+        "forçar parada", "forçar interrupção", "force stop",
+        "limpar dados", "limpar armazenamento", "clear data", "clear storage",
+        "usar bloqueiashorts", "use bloqueiashorts",
+        "desativar", "disable", "interromper", "stop"
+    )
+
+    /**
      * Telas do sistema onde dá para desativar ou desinstalar o BloqueiaShorts.
      * Com senha definida, o serviço sai dessas telas sempre que elas mostram o nome do app.
      */

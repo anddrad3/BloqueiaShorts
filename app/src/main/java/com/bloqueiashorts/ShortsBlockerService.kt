@@ -173,16 +173,49 @@ class ShortsBlockerService : AccessibilityService() {
         if (pkg in Rules.PROTECTED_SYSTEM_APPS && Prefs.isTamperProtectionActive(this) &&
             !Session.systemScreensAllowed()
         ) {
-            val appName = getString(R.string.app_name)
-            val mentionsApp = root.findAccessibilityNodeInfosByText(appName).any {
-                // Ignora o "Instalador BloqueiaShorts", que pode ser removido livremente.
-                it.isVisibleToUser && it.text?.contains("Instalador", ignoreCase = true) != true
-            }
-            if (mentionsApp) {
+            if (isDangerousScreenForThisApp(root)) {
                 return Detection("configuração protegida por senha", Action.BACK)
             }
         }
         return null
+    }
+
+    /**
+     * Só considera perigosa a tela que é DO BloqueiaShorts e tem um jeito de desligá-lo:
+     * o nome do app como título (no topo) + um botão/ação como "Desinstalar", "Forçar parada"
+     * ou a chave "Usar BloqueiaShorts". Listas de apps (onde o nome aparece no meio de outros)
+     * continuam acessíveis.
+     */
+    private fun isDangerousScreenForThisApp(root: AccessibilityNodeInfo): Boolean {
+        val appName = getString(R.string.app_name)
+        val topLimit = resources.displayMetrics.heightPixels * 0.35f
+        val bounds = Rect()
+
+        var titleOnTop = false
+        var hasDangerAction = false
+        val queue = ArrayDeque<AccessibilityNodeInfo>().apply { add(root) }
+        var visited = 0
+        while (queue.isNotEmpty() && visited < MAX_NODES_SCANNED) {
+            val node = queue.removeFirst()
+            visited++
+            val text = (node.text ?: node.contentDescription)?.toString()?.trim()
+            if (!text.isNullOrEmpty() && node.isVisibleToUser) {
+                if (text.equals(appName, ignoreCase = true)) {
+                    node.getBoundsInScreen(bounds)
+                    if (bounds.top < topLimit) titleOnTop = true
+                }
+                val lower = text.lowercase()
+                val danger = Rules.DANGER_ACTIONS.any { lower.contains(it) }
+                // Caixas como "Interromper o BloqueiaShorts?" ou "Desinstalar BloqueiaShorts?"
+                if (danger && lower.contains(appName.lowercase()) &&
+                    !lower.contains("instalador")
+                ) return true
+                if (danger) hasDangerAction = true
+                if (titleOnTop && hasDangerAction) return true
+            }
+            for (i in 0 until node.childCount) node.getChild(i)?.let { queue.add(it) }
+        }
+        return titleOnTop && hasDangerAction
     }
 
     /** Procura uma das views do player ocupando quase a tela toda. */
