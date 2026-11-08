@@ -77,6 +77,22 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.rowHide).setOnClickListener { haptic(it); onHideRow() }
         findViewById<View>(R.id.rowHowItWorks).setOnClickListener { haptic(it); showSecretCodeSheet(forHiding = false) }
         findViewById<View>(R.id.rowCopyCode).setOnClickListener { haptic(it); onCopyCodeRow() }
+        findViewById<View>(R.id.rowSetupA11y).setOnClickListener {
+            haptic(it)
+            openSystemScreen("Abrir Acessibilidade") { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
+        }
+        findViewById<View>(R.id.rowSetupBattery).setOnClickListener {
+            haptic(it)
+            openSystemScreen("Abrir bateria") { DeviceSetup.openBatterySettings(this) }
+        }
+        findViewById<View>(R.id.rowSetupAutostart).setOnClickListener {
+            haptic(it)
+            openSystemScreen("Abrir inicialização automática") { DeviceSetup.openAutostartSettings(this) }
+        }
+        findViewById<View>(R.id.rowSetupPopup).setOnClickListener {
+            haptic(it)
+            openSystemScreen("Abrir permissões") { DeviceSetup.openPopupSettings(this) }
+        }
         findViewById<View>(R.id.btnHelp).setOnClickListener { haptic(it); showHelpSheet() }
         findViewById<View>(R.id.btnRestricted).setOnClickListener { haptic(it); showRestrictedSheet() }
         findViewById<View>(R.id.rowHelp).setOnClickListener { haptic(it); showHelpSheet() }
@@ -104,6 +120,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        Session.lastResumedAt = android.os.SystemClock.elapsedRealtime()
         refresh(animate = true)
     }
 
@@ -184,6 +201,8 @@ class MainActivity : AppCompatActivity() {
             hasPin -> "Some da tela inicial e da gaveta de apps"
             else -> "Defina uma senha para usar"
         }
+
+        refreshSetup()
     }
 
     // ------------------------------------------------------------------ ações
@@ -253,6 +272,27 @@ class MainActivity : AppCompatActivity() {
             snack("Defina uma senha primeiro: ela vira o código para reabrir o app")
             return
         }
+        // Na Xiaomi, sem "janelas pop-up em segundo plano" o código do discador não consegue abrir o app.
+        if (DeviceSetup.isXiaomi() && DeviceSetup.isBackgroundPopupAllowed(this) != true) {
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Antes de esconder")
+                .setIcon(R.drawable.ic_warning)
+                .setMessage(
+                    "Na Xiaomi, o código *#*#senha#*#* só consegue abrir o app se a permissão " +
+                        "“Exibir janelas pop-up enquanto executado em segundo plano” estiver ligada.\n\n" +
+                        "Ligue agora para não ficar sem acesso ao app. (Se mesmo assim a Xiaomi impedir, " +
+                        "o ícone volta sozinho quando você digitar o código certo.)"
+                )
+                .setPositiveButton("Abrir permissões") { _, _ ->
+                    openSystemScreen("Abrir permissões") { DeviceSetup.openPopupSettings(this) }
+                }
+                .setNeutralButton("Esconder mesmo assim") { _, _ ->
+                    withPin("Esconder ícone") { showSecretCodeSheet(forHiding = true) }
+                }
+                .setNegativeButton("Cancelar", null)
+                .show()
+            return
+        }
         withPin("Esconder ícone") { showSecretCodeSheet(forHiding = true) }
     }
 
@@ -268,20 +308,64 @@ class MainActivity : AppCompatActivity() {
         sheet.show()
     }
 
-    private fun isXiaomi() = android.os.Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true) ||
-        android.os.Build.BRAND.lowercase() in setOf("xiaomi", "redmi", "poco")
+    /**
+     * Abre uma tela de configuração do sistema. Se a proteção por senha estiver ativa,
+     * pede a senha e libera essas telas por 1 minuto (senão o próprio app tiraria você de lá).
+     */
+    private fun openSystemScreen(title: String, open: () -> Unit) {
+        if (Prefs.isTamperProtectionActive(this)) {
+            withPin(title) {
+                Session.allowSystemScreens()
+                open()
+            }
+        } else {
+            open()
+        }
+    }
 
-    /** Abre "Outras permissões" da MIUI/HyperOS; se não existir, as informações do app. */
-    private fun openXiaomiPermissions() {
-        val miui = Intent("miui.intent.action.APP_PERM_EDITOR")
-            .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
-            .putExtra("extra_pkgname", packageName)
-        try {
-            startActivity(miui)
-        } catch (e: Exception) {
-            startActivity(
-                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, android.net.Uri.parse("package:$packageName"))
+    private fun refreshSetup() {
+        val xiaomi = DeviceSetup.isXiaomi()
+        setSetupRow(
+            R.id.iconSetupA11y, R.id.subSetupA11y, isServiceEnabled(),
+            "Ativa", "Desativada · toque para ativar"
+        )
+        setSetupRow(
+            R.id.iconSetupBattery, R.id.subSetupBattery, DeviceSetup.isBatteryUnrestricted(this),
+            "Ok · o sistema não vai desligar o app",
+            "Toque e escolha “Sem restrições”"
+        )
+        val xiaomiRows = if (xiaomi) View.VISIBLE else View.GONE
+        listOf(R.id.rowSetupAutostart, R.id.dividerSetupAutostart, R.id.rowSetupPopup, R.id.dividerSetupPopup)
+            .forEach { findViewById<View>(it).visibility = xiaomiRows }
+        if (xiaomi) {
+            setSetupRow(
+                R.id.iconSetupAutostart, R.id.subSetupAutostart, DeviceSetup.isAutostartAllowed(this),
+                "Ligada · o app volta sozinho ao reiniciar",
+                "Toque e ligue o BloqueiaShorts"
             )
+            setSetupRow(
+                R.id.iconSetupPopup, R.id.subSetupPopup, DeviceSetup.isBackgroundPopupAllowed(this),
+                "Permitida · o código do discador abre o app",
+                "Necessária para reabrir pelo código *#*#senha#*#*"
+            )
+        }
+    }
+
+    /** ok = true (verde), false (amarelo, precisa ajustar) ou null (não dá para saber: confira). */
+    private fun setSetupRow(iconId: Int, subId: Int, ok: Boolean?, okText: String, todoText: String) {
+        val icon = findViewById<ImageView>(iconId)
+        val (img, fg, bg) = when (ok) {
+            true -> Triple(R.drawable.ic_shield_check, R.color.state_on, R.color.state_on_container)
+            false -> Triple(R.drawable.ic_warning, R.color.state_paused, R.color.state_paused_container)
+            null -> Triple(R.drawable.ic_info, R.color.accent, R.color.accent_container)
+        }
+        icon.setImageResource(img)
+        icon.imageTintList = ColorStateList.valueOf(color(fg))
+        icon.backgroundTintList = ColorStateList.valueOf(color(bg))
+        findViewById<TextView>(subId).text = when (ok) {
+            true -> okText
+            false -> todoText
+            null -> "Toque para conferir · $todoText"
         }
     }
 
@@ -326,14 +410,11 @@ class MainActivity : AppCompatActivity() {
     private fun showSecretCodeSheet(forHiding: Boolean) {
         val (sheet, view) = openSheet(R.layout.sheet_secret_code)
 
-        if (isXiaomi()) {
+        if (DeviceSetup.isXiaomi()) {
             view.findViewById<View>(R.id.xiaomiBox).visibility = View.VISIBLE
             view.findViewById<MaterialButton>(R.id.btnXiaomiPerms).setOnClickListener {
                 haptic(it)
-                withPin("Abrir permissões") {
-                    Session.allowSystemScreens()
-                    openXiaomiPermissions()
-                }
+                openSystemScreen("Abrir permissões") { DeviceSetup.openPopupSettings(this) }
             }
         }
 

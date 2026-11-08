@@ -30,4 +30,8 @@ object Session {
     }
 
     fun systemScreensAllowed() = SystemClock.elapsedRealtime() < systemScreensUntil
+
+    /** Última vez que a tela principal apareceu (para saber se o código do discador conseguiu abri-la). */
+    @Volatile
+    var lastResumedAt = 0L
 }

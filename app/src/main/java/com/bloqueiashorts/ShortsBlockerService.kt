@@ -85,11 +85,29 @@ class ShortsBlockerService : AccessibilityService() {
         )
         lastDialerCode = null
         Session.unlock()
-        startActivity(
-            android.content.Intent(this, MainActivity::class.java).addFlags(
-                android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+        val requestedAt = SystemClock.elapsedRealtime()
+        try {
+            startActivity(
+                android.content.Intent(this, MainActivity::class.java).addFlags(
+                    android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+                )
             )
-        )
+        } catch (e: Exception) {
+            Log.w(TAG, "Não foi possível abrir a tela", e)
+        }
+
+        // Plano B: se o sistema (ex.: Xiaomi) impediu a tela de abrir, devolve o ícone à tela inicial.
+        handler.postDelayed({
+            if (Session.lastResumedAt < requestedAt && IconHider.isHidden(this)) {
+                IconHider.setHidden(this, false)
+                Log.i(TAG, "Tela bloqueada pelo sistema — ícone restaurado")
+                android.widget.Toast.makeText(
+                    this,
+                    "O celular impediu abrir o BloqueiaShorts. O ícone voltou para a tela inicial.",
+                    android.widget.Toast.LENGTH_LONG
+                ).show()
+            }
+        }, 2500)
     }
 
     /** Procura na tela do discador um texto no formato do código secreto. */
