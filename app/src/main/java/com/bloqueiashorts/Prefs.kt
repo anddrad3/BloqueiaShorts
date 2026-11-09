@@ -91,6 +91,14 @@ object Prefs {
         sp(c).edit().putBoolean("icon_temp_revealed", value).apply()
     }
 
+    // ---- Serviço desligado para usar app de banco ----
+
+    fun isBankMode(c: Context) = sp(c).getBoolean("bank_mode", false)
+
+    fun setBankMode(c: Context, value: Boolean) {
+        sp(c).edit().putBoolean("bank_mode", value).apply()
+    }
+
     // ---- Tela de ajuda ----
 
     fun wasHelpSeen(c: Context) = sp(c).getBoolean("help_seen", false)

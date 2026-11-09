@@ -88,6 +88,17 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Apps de banco -->
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_lock" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Apps de banco" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="Bancos como o Nubank bloqueiam o acesso quando um app de fora da Play Store está com a Acessibilidade ligada. É uma proteção contra golpes, não quer dizer que o BloqueiaShorts seja perigoso. Antes de abrir o banco, toque em “Desligar para usar app de banco” na tela principal; depois, toque em “Religar a proteção”." />
+            </LinearLayout>
+        </LinearLayout>
+
         <!-- 6. Problemas -->
         <LinearLayout style="@style/HelpBlock">
             <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_warning" />

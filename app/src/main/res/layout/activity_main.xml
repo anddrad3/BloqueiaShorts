@@ -141,6 +141,13 @@
                     android:layout_marginTop="4dp"
                     android:text="Apareceu “Configuração restrita”?"
                     android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBank"
+                    style="@style/PillButton.Text"
+                    android:layout_marginTop="4dp"
+                    android:text="Desligar para usar app de banco"
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

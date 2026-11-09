@@ -22,6 +22,21 @@ class ShortsBlockerService : AccessibilityService() {
     companion object {
         private const val TAG = "BloqueiaShorts"
 
+        /** Instância em execução (para a tela do app poder desligar o serviço). */
+        @Volatile
+        var running: ShortsBlockerService? = null
+            private set
+
+        /**
+         * Desliga o próprio serviço de Acessibilidade (recurso oficial do Android).
+         * Usado pelo botão "Desligar para usar app de banco". Retorna false se não estava rodando.
+         */
+        fun turnOff(): Boolean {
+            val service = running ?: return false
+            service.disableSelf()
+            return true
+        }
+
         /** Intervalo entre uma ação e a próxima tentativa, se a tela continuar aberta. */
         private const val RETRY_MS = 900L
 
@@ -390,7 +405,13 @@ class ShortsBlockerService : AccessibilityService() {
         handler.removeCallbacks(recheck)
     }
 
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        running = this
+    }
+
     override fun onDestroy() {
+        running = null
         handler.removeCallbacks(recheck)
         removeOverlay()
         super.onDestroy()

@@ -338,6 +338,11 @@ BloqueiaShorts (Desinstalar, Forçar parada, Limpar dados), a chave dele na Aces
 ### 👻 Modo invisível
 Esconde o ícone. Reabra digitando **`*#*#SUASENHA#*#*`** no app Telefone: o ícone reaparece por alguns minutos e some de novo quando você sai do app. Detalhes na [Etapa 9](#etapa-9--senha-e-modo-invisível-opcional).
 
+### 🏦 Desligar para usar app de banco
+Bancos como o **Nubank** bloqueiam o acesso quando há um app de fora da Play Store com a Acessibilidade ligada.
+Na tela principal, toque em **"Desligar para usar app de banco"** (pede a senha, se houver): o BloqueiaShorts se desliga.
+Depois de usar o banco, abra o BloqueiaShorts e toque em **"Religar a proteção"**. Veja a [pergunta frequente](#perguntas-frequentes).
+
 ### ⚙️ Ajustes do celular
 Mostra o estado da Acessibilidade, bateria, inicialização automática e janelas pop-up, com atalhos para cada tela.
 
@@ -359,6 +364,7 @@ Material 3 com modo claro e escuro automáticos, animações e uma tela **"Como 
 | Parou de bloquear | Abra o app: se estiver "Quase lá", ative a Acessibilidade de novo. Confira a [Etapa 7](#etapa-7--ajustes-do-celular-não-pule). |
 | O código some do discador mas nada acontece | Atualize para a versão 1.1 ou mais nova: o código passa a mostrar o ícone na tela inicial, o que funciona em qualquer celular. |
 | Na Xiaomi, "Gerenciar apps" fecha sozinho | Versões antigas tinham a proteção rígida demais. Atualize, ou use o **desinstalador de emergência**. |
+| Nubank / app de banco diz que o BloqueiaShorts é "suspeito" e bloqueia a conta | Toque em **"Desligar para usar app de banco"** antes de abrir o banco e religue depois. Veja as [perguntas frequentes](#perguntas-frequentes). |
 | Escondi o ícone e não consigo abrir o app | Veja [Esqueci a senha / fiquei sem acesso](#perguntas-frequentes). |
 
 ---
@@ -370,6 +376,23 @@ Material 3 com modo claro e escuro automáticos, animações e uma tela **"Como 
 
 Sim. O serviço de Acessibilidade volta sozinho quando o celular liga, e a senha e as configurações ficam salvas.
 Para isso, faça a [Etapa 7](#etapa-7--ajustes-do-celular-não-pule) (inicialização automática e bateria sem restrições).
+</details>
+
+<details>
+<summary><b>Meu banco (Nubank, etc.) diz que o BloqueiaShorts tem "características suspeitas". É vírus?</b></summary>
+
+**Não.** Bancos bloqueiam por precaução **qualquer** app instalado fora da Play Store que esteja com a
+**Acessibilidade ligada**, porque golpistas usam esse recurso em apps falsos para ler a tela e controlar o celular.
+O BloqueiaShorts não tem acesso à internet e não coleta nada — o código é aberto para qualquer um conferir.
+
+**O que fazer:**
+1. Antes de abrir o app do banco, abra o BloqueiaShorts e toque em **"Desligar para usar app de banco"**.
+2. Use o banco normalmente.
+3. Depois, abra o BloqueiaShorts e toque em **"Religar a proteção"** → ligue a chave em *Acessibilidade → Apps baixados*.
+
+Se o banco continuar bloqueando mesmo com o serviço desligado, ele está olhando apenas se o app está **instalado**:
+nesse caso, é preciso desinstalar para usar o banco (o [desinstalador de emergência](#problemas-e-soluções) ajuda) e instalar de novo depois.
+**Não tente esconder o app do banco** — a verificação existe para proteger a sua conta.
 </details>
 
 <details>

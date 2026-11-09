@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.btnHelp).setOnClickListener { haptic(it); showHelpSheet() }
         findViewById<View>(R.id.btnRestricted).setOnClickListener { haptic(it); showRestrictedSheet() }
+        findViewById<View>(R.id.btnBank).setOnClickListener { haptic(it); onBankButton() }
         findViewById<View>(R.id.rowHelp).setOnClickListener { haptic(it); showHelpSheet() }
 
         val chips = findViewById<ChipGroup>(R.id.chips)
@@ -172,16 +173,26 @@ class MainActivity : AppCompatActivity() {
                 btnMain.text = "Ativar bloqueio"
                 btnMain.setIconResource(R.drawable.ic_shield_check)
             }
-            State.SERVICE_OFF -> {
+            State.SERVICE_OFF -> if (Prefs.isBankMode(this)) {
+                statusTitle.text = "Desligado para o banco"
+                statusSubtitle.text = "Terminou de usar o app do banco? Toque abaixo e ligue o BloqueiaShorts de novo em Acessibilidade → Apps baixados."
+                btnMain.text = "Religar a proteção"
+                btnMain.setIconResource(R.drawable.ic_shield_check)
+            } else {
                 statusTitle.text = "Quase lá"
                 statusSubtitle.text = "Ative o BloqueiaShorts em Acessibilidade → Apps baixados."
                 btnMain.text = "Abrir Acessibilidade"
                 btnMain.setIconResource(R.drawable.ic_accessibility)
             }
         }
+        // Serviço ligado de novo: sai do modo banco.
+        if (state != State.SERVICE_OFF && Prefs.isBankMode(this)) Prefs.setBankMode(this, false)
 
         findViewById<View>(R.id.btnRestricted).visibility =
-            if (state == State.SERVICE_OFF && android.os.Build.VERSION.SDK_INT >= 33) View.VISIBLE else View.GONE
+            if (state == State.SERVICE_OFF && !Prefs.isBankMode(this) && android.os.Build.VERSION.SDK_INT >= 33)
+                View.VISIBLE else View.GONE
+        findViewById<View>(R.id.btnBank).visibility =
+            if (state != State.SERVICE_OFF) View.VISIBLE else View.GONE
 
         if (animate && changed && lastState != null) popIcon()
         if (state == State.ACTIVE) startPulse() else stopPulse()
@@ -227,6 +238,39 @@ class MainActivity : AppCompatActivity() {
                 snack("Proteção ativada")
             }
         }
+    }
+
+    /**
+     * Apps de banco (Nubank e outros) bloqueiam o acesso quando há um serviço de Acessibilidade
+     * ligado que não veio da Play Store. Este botão desliga o serviço do BloqueiaShorts
+     * (recurso oficial do Android) para a pessoa usar o banco, e depois ela religa.
+     */
+    private fun onBankButton() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Usar app de banco")
+            .setIcon(R.drawable.ic_lock)
+            .setMessage(
+                "Apps de banco (como o Nubank) bloqueiam o acesso quando um app de fora da Play Store " +
+                    "está com a Acessibilidade ligada — é uma proteção contra golpes, não quer dizer que " +
+                    "o BloqueiaShorts seja perigoso.\n\n" +
+                    "Este botão desliga o BloqueiaShorts. Os vídeos curtos ficam liberados até você religar.\n\n" +
+                    "Quando terminar de usar o banco, abra o BloqueiaShorts e toque em “Religar a proteção”."
+            )
+            .setPositiveButton("Desligar") { _, _ ->
+                withPin("Desligar para usar o banco") {
+                    Prefs.setBankMode(this, true)
+                    if (ShortsBlockerService.turnOff()) {
+                        content.postDelayed({ refresh(animate = true) }, 400)
+                        snack("BloqueiaShorts desligado. Pode abrir o app do banco.")
+                    } else {
+                        // Serviço não estava rodando: abre a Acessibilidade para desligar manualmente.
+                        Session.allowSystemScreens()
+                        startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                    }
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun onPinRow() {
