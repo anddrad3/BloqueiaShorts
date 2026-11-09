@@ -36,6 +36,9 @@ class ShortsBlockerService : AccessibilityService() {
 
         /** Limite de views visitadas ao procurar o endereço sem ID conhecido. */
         private const val MAX_NODES_SCANNED = 400
+
+        /** O mesmo código do discador chega em vários eventos; conta uma vez só neste intervalo. */
+        private const val DIALER_DEDUP_MS = 5000L
     }
 
     private enum class Action { BACK, HOME }
@@ -52,38 +55,66 @@ class ShortsBlockerService : AccessibilityService() {
 
     /** Último código secreto conferido, para não contar o mesmo erro várias vezes. */
     private var lastDialerCode: String? = null
+    private var lastDialerCodeAt = 0L
+
+    private fun matchSecretCode(text: String): String? =
+        Rules.SECRET_CODE.find(text.filterNot { it.isWhitespace() })?.groupValues?.get(1)
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         val pkg = event?.packageName?.toString() ?: return
         if (pkg in Rules.DIALERS) {
-            checkDialer() // funciona mesmo com o bloqueio pausado
+            checkDialer(event) // funciona mesmo com o bloqueio pausado
             return
         }
         check()
     }
 
-    /** Abre o app quando o campo do discador mostra *#*#SENHA#*#* com a senha certa. */
-    private fun checkDialer() {
+    /**
+     * Mostra o cartão de desbloqueio quando *#*#SENHA#*#* é digitado no discador.
+     *
+     * O discador do Google APAGA o campo assim que reconhece um código *#*#...#*#*, muitas vezes
+     * antes de dá para ler a tela. Por isso o código é procurado primeiro no próprio evento de
+     * digitação: o texto novo e o texto ANTERIOR (o evento de "apagar" ainda traz o código inteiro).
+     */
+    private fun checkDialer(event: AccessibilityEvent) {
         if (!Prefs.hasPin(this)) return
-        val root = rootInActiveWindow ?: return
-        val (node, code) = findSecretCode(root) ?: run { lastDialerCode = null; return }
-        if (code == lastDialerCode) return
+
+        var code: String? = null
+        var node: AccessibilityNodeInfo? = null
+        if (event.eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED) {
+            val candidates = event.text.map { it.toString() } + listOfNotNull(event.beforeText?.toString())
+            code = candidates.firstNotNullOfOrNull { matchSecretCode(it) }
+        }
+        if (code == null) {
+            val found = rootInActiveWindow?.let { findSecretCode(it) }
+            code = found?.second
+            node = found?.first
+        }
+        if (code == null) {
+            // Campo sem código: libera para conferir o próximo, exceto logo após um código
+            // (o evento de "apagar" chega depois do evento com o código completo).
+            if (event.eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED &&
+                SystemClock.elapsedRealtime() - lastDialerCodeAt > DIALER_DEDUP_MS
+            ) lastDialerCode = null
+            return
+        }
+        if (code == lastDialerCode && SystemClock.elapsedRealtime() - lastDialerCodeAt < DIALER_DEDUP_MS) return
         lastDialerCode = code
+        lastDialerCodeAt = SystemClock.elapsedRealtime()
 
         if (!Prefs.checkPin(this, code)) {
             Log.d(TAG, "Código secreto digitado, mas não é a senha")
             return
         }
-        Log.i(TAG, "Código secreto correto — abrindo o app")
+        Log.i(TAG, "Código secreto correto — mostrando o cartão de desbloqueio")
 
-        // Apaga o código do campo, para a senha não ficar visível no discador.
-        node.performAction(
+        // Apaga o código do campo (se o discador ainda não apagou), para a senha não ficar visível.
+        node?.performAction(
             AccessibilityNodeInfo.ACTION_SET_TEXT,
             android.os.Bundle().apply {
                 putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "")
             }
         )
-        lastDialerCode = null
         Session.unlock()
         // Em vez de abrir a tela "por trás" (a Xiaomi bloqueia ou fecha), mostra um cartão por cima
         // do discador. Os botões são tocados pela pessoa, então a abertura é permitida.
