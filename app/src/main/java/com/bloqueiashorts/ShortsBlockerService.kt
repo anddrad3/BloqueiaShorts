@@ -85,6 +85,70 @@ class ShortsBlockerService : AccessibilityService() {
         )
         lastDialerCode = null
         Session.unlock()
+        // Em vez de abrir a tela "por trás" (a Xiaomi bloqueia ou fecha), mostra um cartão por cima
+        // do discador. Os botões são tocados pela pessoa, então a abertura é permitida.
+        showUnlockOverlay()
+    }
+
+    // ------------------------------------------------------------------ cartão sobre o discador
+
+    private var overlay: android.view.View? = null
+    private val dismissOverlay = Runnable { removeOverlay() }
+
+    private fun showUnlockOverlay() {
+        removeOverlay()
+        val wm = getSystemService(android.view.WindowManager::class.java)
+        val themed = android.view.ContextThemeWrapper(this, R.style.Theme_BloqueiaShorts)
+        val view = android.view.LayoutInflater.from(themed).inflate(R.layout.overlay_unlock, null)
+
+        view.findViewById<android.view.View>(R.id.btnOverlayOpen).setOnClickListener {
+            removeOverlay()
+            openMainScreen()
+        }
+        view.findViewById<android.view.View>(R.id.btnOverlayShowIcon).setOnClickListener {
+            removeOverlay()
+            restoreIcon("Ícone de volta na tela inicial. Toque nele para abrir o BloqueiaShorts.")
+        }
+        view.findViewById<android.view.View>(R.id.btnOverlayClose).setOnClickListener { removeOverlay() }
+
+        val params = android.view.WindowManager.LayoutParams(
+            android.view.WindowManager.LayoutParams.MATCH_PARENT,
+            android.view.WindowManager.LayoutParams.MATCH_PARENT,
+            android.view.WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
+            android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            android.graphics.PixelFormat.TRANSLUCENT
+        )
+        try {
+            wm.addView(view, params)
+            overlay = view
+            // pequena animação de entrada
+            view.findViewById<android.view.View>(R.id.overlayCard).apply {
+                alpha = 0f; scaleX = 0.9f; scaleY = 0.9f
+                animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(260)
+                    .setInterpolator(android.view.animation.OvershootInterpolator(1.6f)).start()
+            }
+            handler.postDelayed(dismissOverlay, 60_000)
+        } catch (e: Exception) {
+            // Se nem o cartão puder ser mostrado, devolve o ícone direto.
+            Log.w(TAG, "Não foi possível mostrar o cartão", e)
+            restoreIcon("Código correto. O ícone do BloqueiaShorts voltou para a tela inicial.")
+        }
+    }
+
+    private fun removeOverlay() {
+        handler.removeCallbacks(dismissOverlay)
+        overlay?.let {
+            try {
+                getSystemService(android.view.WindowManager::class.java).removeView(it)
+            } catch (e: Exception) {
+                // já removido
+            }
+        }
+        overlay = null
+    }
+
+    /** Abre a tela principal; se o sistema impedir, devolve o ícone à tela inicial. */
+    private fun openMainScreen() {
         val requestedAt = SystemClock.elapsedRealtime()
         try {
             startActivity(
@@ -95,19 +159,17 @@ class ShortsBlockerService : AccessibilityService() {
         } catch (e: Exception) {
             Log.w(TAG, "Não foi possível abrir a tela", e)
         }
-
-        // Plano B: se o sistema (ex.: Xiaomi) impediu a tela de abrir, devolve o ícone à tela inicial.
         handler.postDelayed({
-            if (Session.lastResumedAt < requestedAt && IconHider.isHidden(this)) {
-                IconHider.setHidden(this, false)
-                Log.i(TAG, "Tela bloqueada pelo sistema — ícone restaurado")
-                android.widget.Toast.makeText(
-                    this,
-                    "O celular impediu abrir o BloqueiaShorts. O ícone voltou para a tela inicial.",
-                    android.widget.Toast.LENGTH_LONG
-                ).show()
+            if (Session.lastResumedAt < requestedAt) {
+                restoreIcon("O celular impediu abrir o app. O ícone voltou: toque nele para abrir.")
             }
         }, 2500)
+    }
+
+    private fun restoreIcon(message: String) {
+        if (IconHider.isHidden(this)) IconHider.setHidden(this, false)
+        Log.i(TAG, "Ícone restaurado")
+        android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG).show()
     }
 
     /** Procura na tela do discador um texto no formato do código secreto. */
@@ -284,6 +346,7 @@ class ShortsBlockerService : AccessibilityService() {
 
     override fun onDestroy() {
         handler.removeCallbacks(recheck)
+        removeOverlay()
         super.onDestroy()
     }
 }

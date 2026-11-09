@@ -91,6 +91,18 @@ ANDROID_SERIAL=$("$ADB" devices | awk 'NR>1 && $2=="device" {print $1; exit}')
 export ANDROID_SERIAL
 echo
 echo "[3/4] Celular conectado. Instalando o BloqueiaShorts..."
+cat <<'TXT'
+
+##########################################################
+##   OLHE PARA O CELULAR AGORA!                         ##
+##   Vai aparecer um aviso com o botão "INSTALAR".       ##
+##   TOQUE EM "INSTALAR" no celular — o aviso some       ##
+##   sozinho em poucos segundos.                        ##
+##   Se não tocar, a instalação é cancelada.            ##
+##########################################################
+
+TXT
+sleep 4
 if "$ADB" shell cmd appops get com.bloqueiashorts ACCESS_RESTRICTED_SETTINGS 2>/dev/null | grep -q ignore; then
   echo "Removendo a versão antiga que estava com 'Configuração restrita'..."
   "$ADB" uninstall com.bloqueiashorts >/dev/null 2>&1

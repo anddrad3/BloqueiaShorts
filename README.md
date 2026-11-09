@@ -143,7 +143,9 @@ Abra as **Opções do desenvolvedor** (veja a última coluna da tabela acima) e 
    - **Mac:** dois cliques no arquivo.
    - **Linux:** `unzip BloqueiaShorts-Instalador-PC.zip`
 4. Abra a pasta extraída. Dentro dela devem estar:
-   `Instalar-Windows.bat`, `instalar-mac-linux.sh`, `BloqueiaShorts.apk` e `LEIA-ME.txt`.
+   - `Instalar-Windows.bat` e `instalar-mac-linux.sh` — **instaladores**;
+   - `Desinstalar-Windows.bat` e `desinstalar-mac-linux.sh` — **desinstaladores de emergência** (se esquecer a senha ou ficar sem acesso);
+   - `BloqueiaShorts.apk` e `LEIA-ME.txt`.
 
 ---
 
@@ -204,7 +206,7 @@ Nas próximas vezes, se o celular continuar pareado, o instalador conecta direto
 
 Com o celular conectado, o instalador mostra `Celular conectado. Instalando...`.
 
-- **Xiaomi: olhe para o celular agora!** Pode aparecer um aviso perguntando se quer instalar — toque em **Instalar** rápido (ele some em poucos segundos).
+- **👀 Olhe para o celular agora!** O instalador avisa com um quadro grande na tela. Vai aparecer no celular um aviso com o botão **"Instalar"** — **toque em "Instalar"**. O aviso some sozinho em poucos segundos; se você não tocar, a instalação é cancelada e é só rodar o instalador de novo.
 - Se já existir uma versão antiga com "Configuração restrita" ou com outra assinatura, o instalador **remove e instala de novo** sozinho.
 - No fim aparece **`PRONTO!`** e o BloqueiaShorts **abre sozinho no celular**.
 
@@ -236,7 +238,7 @@ Cada item mostra ✅ (ok), ⚠️ (precisa ajustar) ou ⓘ (o app não consegue 
 | **Acessibilidade** | Deixe o BloqueiaShorts ligado | Sem isso nada funciona |
 | **Bateria sem restrições** | Escolha **"Sem restrições"** (Xiaomi) ou **"Não otimizar"** / **"Irrestrito"** | Impede o sistema de desligar o bloqueio |
 | **Inicialização automática** *(Xiaomi)* | Ligue a chave do **BloqueiaShorts** | O bloqueio volta sozinho depois de reiniciar |
-| **Janelas pop-up em segundo plano** *(Xiaomi)* | Em **Outras permissões**, permita **"Exibir janelas pop-up enquanto executado em segundo plano"** | Necessário para o código secreto do discador abrir o app |
+| **Janelas pop-up em segundo plano** *(Xiaomi)* | Em **Outras permissões**, permita **"Exibir janelas pop-up enquanto executado em segundo plano"** | Recomendado: ajuda o botão "Abrir" do código secreto a abrir o app direto |
 
 > Samsung: em *Configurações → Bateria → Limites de uso em segundo plano*, confira se o BloqueiaShorts **não** está em "Apps em suspensão".
 
@@ -259,16 +261,18 @@ Cada item mostra ✅ (ok), ⚠️ (precisa ajustar) ou ⓘ (o app não consegue 
 **Teste o código ANTES de esconder o ícone:**
 1. Saia do BloqueiaShorts e abra o app **Telefone** (discador).
 2. Digite `*#*#` + sua senha + `#*#*` — por exemplo, senha `2580` → `*#*#2580#*#*`. Não precisa apertar ligar.
-3. O código some do discador e o **BloqueiaShorts abre**. ✅
-   Se o código sumir mas o app **não** abrir: falta a permissão **"Janelas pop-up em segundo plano"** ([Etapa 7](#etapa-7--ajustes-do-celular-não-pule)).
+3. O código some do discador e aparece um cartão **"Código correto ✅"** por cima da tela, com dois botões:
+   - **Abrir o BloqueiaShorts** — abre o app;
+   - **Mostrar o ícone na tela inicial** — devolve o ícone (funciona em qualquer celular, mesmo que o sistema impeça o app de abrir).
+4. Se nada aparecer: confira se o serviço de Acessibilidade está **ativo** e se você definiu uma senha.
 
 **Esconder o ícone** (só depois que o teste acima funcionou):
 1. No app: **Modo invisível → Esconder ícone** → digite a senha → leia o aviso → **Esconder agora**.
 2. Para reabrir: digite o código no discador. Dica: **"Copiar código de reabertura"** copia o código pronto para colar.
 3. Para mostrar o ícone de novo: abra pelo código → **Esconder ícone** (desligar).
 
-> 🛟 **Rede de segurança:** se você digitar o código certo e o celular impedir o app de abrir, **o ícone volta sozinho**
-> para a tela inicial.
+> 🛟 **Rede de segurança:** se você tocar em "Abrir" e o celular impedir o app de abrir, **o ícone volta sozinho**
+> para a tela inicial. E o **desinstalador de emergência** remove o app pelo computador em qualquer situação.
 
 ---
 
@@ -331,7 +335,7 @@ BloqueiaShorts (Desinstalar, Forçar parada, Limpar dados), a chave dele na Aces
 **Precisa mexer nessas telas?** Toque em **Pausar bloqueio** e digite a senha — a proteção desliga junto.
 
 ### 👻 Modo invisível
-Esconde o ícone. Reabra digitando **`*#*#SUASENHA#*#*`** no app Telefone. Detalhes na [Etapa 9](#etapa-9--senha-e-modo-invisível-opcional).
+Esconde o ícone. Reabra digitando **`*#*#SUASENHA#*#*`** no app Telefone: aparece um cartão por cima do discador com **Abrir o BloqueiaShorts** e **Mostrar o ícone**. Detalhes na [Etapa 9](#etapa-9--senha-e-modo-invisível-opcional).
 
 ### ⚙️ Ajustes do celular
 Mostra o estado da Acessibilidade, bateria, inicialização automática e janelas pop-up, com atalhos para cada tela.
@@ -352,7 +356,8 @@ Material 3 com modo claro e escuro automáticos, animações e uma tela **"Como 
 | "O Windows protegeu o computador" | **Mais informações → Executar assim mesmo**. |
 | "Configuração restrita" | Instale pelo computador ou veja [Instalar sem computador](#instalar-sem-computador). |
 | Parou de bloquear | Abra o app: se estiver "Quase lá", ative a Acessibilidade de novo. Confira a [Etapa 7](#etapa-7--ajustes-do-celular-não-pule). |
-| O código some do discador mas o app não abre | Xiaomi: permita **"Janelas pop-up em segundo plano"**. Na versão atual o ícone volta sozinho nesse caso. |
+| O código some do discador mas nada acontece | Atualize para a versão mais recente: ela mostra o cartão "Código correto" com o botão **Mostrar o ícone**. |
+| Na Xiaomi, "Gerenciar apps" fecha sozinho | Versões antigas tinham a proteção rígida demais. Atualize, ou use o **desinstalador de emergência**. |
 | Escondi o ícone e não consigo abrir o app | Veja [Esqueci a senha / fiquei sem acesso](#perguntas-frequentes). |
 
 ---
@@ -376,7 +381,7 @@ Para isso, faça a [Etapa 7](#etapa-7--ajustes-do-celular-não-pule) (inicializa
    - Xiaomi: em **Outras permissões**, permita **"Janelas pop-up em segundo plano"** para o código do discador voltar a abrir o app.
 3. Reinicie normalmente.
 
-**Pelo computador:** com a depuração ligada, rode `adb uninstall com.bloqueiashorts` e instale de novo.
+**Pelo computador (mais fácil):** ligue a depuração (Etapas [1](#etapa-1--ativar-o-modo-desenvolvedor) e [2](#etapa-2--ligar-as-opções-de-depuração)) e rode o **`Desinstalar-Windows.bat`** (ou `bash desinstalar-mac-linux.sh`) que vem no ZIP. Ele conecta igual ao instalador, pede confirmação e remove o app — funciona com senha, ícone escondido e proteção ativa. Depois, instale de novo.
 </details>
 
 <details>
@@ -443,7 +448,7 @@ Por enquanto a distribuição é gratuita, aqui pelo GitHub.
 | [`Prefs.kt`](app/src/main/java/com/bloqueiashorts/Prefs.kt) | Configurações salvas e a senha (SHA-256 com *salt*). |
 | [`IconHider.kt`](app/src/main/java/com/bloqueiashorts/IconHider.kt) | Esconde/mostra o ícone ligando e desligando um `activity-alias`. |
 | [`accessibility_service_config.xml`](app/src/main/res/xml/accessibility_service_config.xml) | Lista de apps que o serviço observa. |
-| [`distribuicao/`](distribuicao) | Instaladores pelo computador (`.bat` e `.sh`). |
+| [`distribuicao/`](distribuicao) | Instaladores e desinstaladores de emergência pelo computador (`.bat` e `.sh`). |
 
 **Detecção:**
 - **Player dentro de apps (YouTube, Instagram):** procura views com IDs específicos (ex.: `reel_recycler`)

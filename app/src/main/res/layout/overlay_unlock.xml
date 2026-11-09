@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cartão desenhado pelo serviço de Acessibilidade por cima do discador quando o código está certo. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99000000"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="24dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/overlayCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cardBackgroundColor="@color/surface"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="12dp"
+        app:strokeColor="@color/outline"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/overlayLogo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_logo_shape" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Código correto ✅"
+                android:textColor="@color/on_surface"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="O BloqueiaShorts está desbloqueado por 2 minutos."
+                android:textColor="@color/muted"
+                android:textSize="14sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOverlayOpen"
+                style="@style/PillButton"
+                android:layout_marginTop="22dp"
+                android:text="Abrir o BloqueiaShorts"
+                app:icon="@drawable/ic_shield_check" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOverlayShowIcon"
+                style="@style/PillButton.Tonal"
+                android:layout_marginTop="10dp"
+                android:text="Mostrar o ícone na tela inicial" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOverlayClose"
+                style="@style/PillButton.Text"
+                android:layout_marginTop="4dp"
+                android:text="Fechar" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

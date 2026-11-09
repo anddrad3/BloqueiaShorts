@@ -144,6 +144,19 @@ for /f "usebackq skip=1 tokens=1,2" %%a in (`call "%ADB%" devices`) do (
 )
 echo.
 echo  [3/4] Celular conectado. Instalando o BloqueiaShorts...
+echo.
+echo  ##########################################################
+echo  ##                                                      ##
+echo  ##   OLHE PARA O CELULAR AGORA!                         ##
+echo  ##                                                      ##
+echo  ##   Vai aparecer um aviso com o botao  "INSTALAR".      ##
+echo  ##   TOQUE EM "INSTALAR" no celular - o aviso some       ##
+echo  ##   sozinho em poucos segundos.                        ##
+echo  ##   Se nao tocar, a instalacao e cancelada.            ##
+echo  ##                                                      ##
+echo  ##########################################################
+echo.
+timeout /t 4 /nobreak >nul
 
 rem  Se ja existe uma versao instalada COM a trava, ela precisa ser removida.
 "%ADB%" shell cmd appops get com.bloqueiashorts ACCESS_RESTRICTED_SETTINGS 2>nul | findstr /c:"ignore" >nul
