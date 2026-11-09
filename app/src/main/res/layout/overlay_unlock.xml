@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:text="O BloqueiaShorts está desbloqueado por 2 minutos."
+                android:text="O ícone do BloqueiaShorts apareceu na tela inicial. Toque nele, ou no botão abaixo, para abrir o app."
                 android:textColor="@color/muted"
                 android:textSize="14sp" />
 
@@ -58,12 +58,6 @@
                 android:layout_marginTop="22dp"
                 android:text="Abrir o BloqueiaShorts"
                 app:icon="@drawable/ic_shield_check" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnOverlayShowIcon"
-                style="@style/PillButton.Tonal"
-                android:layout_marginTop="10dp"
-                android:text="Mostrar o ícone na tela inicial" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnOverlayClose"

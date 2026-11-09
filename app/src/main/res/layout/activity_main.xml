@@ -399,32 +399,6 @@
                     <ImageView style="@style/RowChevron" />
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/dividerCopyCode"
-                    style="@style/Divider" />
-
-                <LinearLayout
-                    android:id="@+id/rowCopyCode"
-                    style="@style/Row">
-
-                    <ImageView
-                        style="@style/RowIconBox.Accent"
-                        android:importantForAccessibility="no"
-                        android:src="@drawable/ic_copy" />
-
-                    <LinearLayout style="@style/RowTexts">
-
-                        <TextView
-                            style="@style/RowTitle"
-                            android:text="Copiar código de reabertura" />
-
-                        <TextView
-                            style="@style/RowSub"
-                            android:text="Pede a senha e copia o código pronto para colar no discador" />
-                    </LinearLayout>
-
-                    <ImageView style="@style/RowChevron" />
-                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

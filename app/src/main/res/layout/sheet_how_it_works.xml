@@ -84,7 +84,7 @@
                 <TextView style="@style/HelpTitle" android:text="Modo invisível" />
                 <TextView
                     style="@style/HelpBody"
-                    android:text="Esconde o ícone da tela inicial. Para abrir o app de novo, digite *#*#SUA SENHA#*#* no app de Telefone. O bloqueio continua funcionando normalmente com o ícone escondido." />
+                    android:text="Esconde o ícone da tela inicial. Para abrir o app de novo, digite *#*#SUA SENHA#*#* no app de Telefone: o ícone reaparece por alguns minutos. Toque nele para abrir; ao sair do app ele se esconde de novo. O bloqueio continua funcionando com o ícone escondido." />
             </LinearLayout>
         </LinearLayout>
 

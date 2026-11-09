@@ -238,7 +238,7 @@ Cada item mostra ✅ (ok), ⚠️ (precisa ajustar) ou ⓘ (o app não consegue 
 | **Acessibilidade** | Deixe o BloqueiaShorts ligado | Sem isso nada funciona |
 | **Bateria sem restrições** | Escolha **"Sem restrições"** (Xiaomi) ou **"Não otimizar"** / **"Irrestrito"** | Impede o sistema de desligar o bloqueio |
 | **Inicialização automática** *(Xiaomi)* | Ligue a chave do **BloqueiaShorts** | O bloqueio volta sozinho depois de reiniciar |
-| **Janelas pop-up em segundo plano** *(Xiaomi)* | Em **Outras permissões**, permita **"Exibir janelas pop-up enquanto executado em segundo plano"** | Recomendado: ajuda o botão "Abrir" do código secreto a abrir o app direto |
+| **Janelas pop-up em segundo plano** *(Xiaomi)* | Em **Outras permissões**, permita **"Exibir janelas pop-up enquanto executado em segundo plano"** | Opcional: faz o botão "Abrir" do cartão do código secreto funcionar |
 
 > Samsung: em *Configurações → Bateria → Limites de uso em segundo plano*, confira se o BloqueiaShorts **não** está em "Apps em suspensão".
 
@@ -261,18 +261,19 @@ Cada item mostra ✅ (ok), ⚠️ (precisa ajustar) ou ⓘ (o app não consegue 
 **Teste o código ANTES de esconder o ícone:**
 1. Saia do BloqueiaShorts e abra o app **Telefone** (discador).
 2. Digite `*#*#` + sua senha + `#*#*` — por exemplo, senha `2580` → `*#*#2580#*#*`. Não precisa apertar ligar.
-3. O código some do discador e aparece um cartão **"Código correto ✅"** por cima da tela, com dois botões:
-   - **Abrir o BloqueiaShorts** — abre o app;
-   - **Mostrar o ícone na tela inicial** — devolve o ícone (funciona em qualquer celular, mesmo que o sistema impeça o app de abrir).
-4. Se nada aparecer: confira se o serviço de Acessibilidade está **ativo** e se você definiu uma senha.
+3. O código some do discador (o app apaga para ninguém ver sua senha) e aparece o aviso **"BloqueiaShorts desbloqueado ✅"**.
+4. **O ícone do BloqueiaShorts aparece na tela inicial** — toque nele para abrir. Isso funciona em qualquer celular.
+   Em alguns celulares aparece também um cartão por cima do discador com o botão **Abrir o BloqueiaShorts** (atalho).
+5. Quando você sair do app, **o ícone se esconde de novo sozinho**. Se não abrir em 3 minutos, ele também se esconde.
+6. Se nada acontecer: confira se o serviço de Acessibilidade está **ativo**, se você definiu uma senha e se não errou a senha 5 vezes seguidas (aí o app espera 1 minuto).
 
 **Esconder o ícone** (só depois que o teste acima funcionou):
 1. No app: **Modo invisível → Esconder ícone** → digite a senha → leia o aviso → **Esconder agora**.
-2. Para reabrir: digite o código no discador. Dica: **"Copiar código de reabertura"** copia o código pronto para colar.
-3. Para mostrar o ícone de novo: abra pelo código → **Esconder ícone** (desligar).
+2. Para reabrir: digite o código no discador. Dica: em **Modo invisível → Como reabrir o app**, o botão **"Copiar código de reabertura"** copia o código pronto para colar.
+3. Para mostrar o ícone **de vez**: abra pelo código → desligue **Esconder ícone**.
 
-> 🛟 **Rede de segurança:** se você tocar em "Abrir" e o celular impedir o app de abrir, **o ícone volta sozinho**
-> para a tela inicial. E o **desinstalador de emergência** remove o app pelo computador em qualquer situação.
+> 🛟 **Rede de segurança:** o código certo sempre devolve o ícone à tela inicial, e o **desinstalador de emergência**
+> remove o app pelo computador em qualquer situação.
 
 ---
 
@@ -335,7 +336,7 @@ BloqueiaShorts (Desinstalar, Forçar parada, Limpar dados), a chave dele na Aces
 **Precisa mexer nessas telas?** Toque em **Pausar bloqueio** e digite a senha — a proteção desliga junto.
 
 ### 👻 Modo invisível
-Esconde o ícone. Reabra digitando **`*#*#SUASENHA#*#*`** no app Telefone: aparece um cartão por cima do discador com **Abrir o BloqueiaShorts** e **Mostrar o ícone**. Detalhes na [Etapa 9](#etapa-9--senha-e-modo-invisível-opcional).
+Esconde o ícone. Reabra digitando **`*#*#SUASENHA#*#*`** no app Telefone: o ícone reaparece por alguns minutos e some de novo quando você sai do app. Detalhes na [Etapa 9](#etapa-9--senha-e-modo-invisível-opcional).
 
 ### ⚙️ Ajustes do celular
 Mostra o estado da Acessibilidade, bateria, inicialização automática e janelas pop-up, com atalhos para cada tela.
@@ -356,7 +357,7 @@ Material 3 com modo claro e escuro automáticos, animações e uma tela **"Como 
 | "O Windows protegeu o computador" | **Mais informações → Executar assim mesmo**. |
 | "Configuração restrita" | Instale pelo computador ou veja [Instalar sem computador](#instalar-sem-computador). |
 | Parou de bloquear | Abra o app: se estiver "Quase lá", ative a Acessibilidade de novo. Confira a [Etapa 7](#etapa-7--ajustes-do-celular-não-pule). |
-| O código some do discador mas nada acontece | Atualize para a versão mais recente: ela mostra o cartão "Código correto" com o botão **Mostrar o ícone**. |
+| O código some do discador mas nada acontece | Atualize para a versão 1.1 ou mais nova: o código passa a mostrar o ícone na tela inicial, o que funciona em qualquer celular. |
 | Na Xiaomi, "Gerenciar apps" fecha sozinho | Versões antigas tinham a proteção rígida demais. Atualize, ou use o **desinstalador de emergência**. |
 | Escondi o ícone e não consigo abrir o app | Veja [Esqueci a senha / fiquei sem acesso](#perguntas-frequentes). |
 

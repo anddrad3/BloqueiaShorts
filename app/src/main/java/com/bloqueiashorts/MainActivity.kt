@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.rowRemovePin).setOnClickListener { haptic(it); onRemovePinRow() }
         findViewById<View>(R.id.rowHide).setOnClickListener { haptic(it); onHideRow() }
         findViewById<View>(R.id.rowHowItWorks).setOnClickListener { haptic(it); showSecretCodeSheet(forHiding = false) }
-        findViewById<View>(R.id.rowCopyCode).setOnClickListener { haptic(it); onCopyCodeRow() }
         findViewById<View>(R.id.rowSetupA11y).setOnClickListener {
             haptic(it)
             openSystemScreen("Abrir Acessibilidade") { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
@@ -127,6 +126,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         Session.lock() // saiu da tela: volta a pedir senha
+        // O ícone foi mostrado só para abrir o app pelo código: esconde de novo ao sair.
+        if (Prefs.isIconTempRevealed(this)) {
+            IconHider.setHidden(this, true)
+            Prefs.setIconTempRevealed(this, false)
+        }
         pulseAnimator?.cancel()
     }
 
@@ -190,13 +194,15 @@ class MainActivity : AppCompatActivity() {
             if (hasPin) "Protege o bloqueio, as configurações e a desinstalação"
             else "Sem senha, qualquer pessoa pode desligar"
         val pinOnly = if (hasPin) View.VISIBLE else View.GONE
-        listOf(R.id.rowRemovePin, R.id.dividerRemove, R.id.rowCopyCode, R.id.dividerCopyCode)
+        listOf(R.id.rowRemovePin, R.id.dividerRemove)
             .forEach { findViewById<View>(it).visibility = pinOnly }
 
         // Modo invisível
-        val hidden = IconHider.isHidden(this)
+        val tempRevealed = Prefs.isIconTempRevealed(this)
+        val hidden = IconHider.isHidden(this) || tempRevealed
         switchHide.isChecked = hidden
         findViewById<TextView>(R.id.rowHideSub).text = when {
+            tempRevealed -> "Visível só agora · some de novo quando você sair do app"
             hidden -> "Escondido · abra com *#*#senha#*#*"
             hasPin -> "Some da tela inicial e da gaveta de apps"
             else -> "Defina uma senha para usar"
@@ -229,8 +235,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun onRemovePinRow() = withPin("Remover senha") {
         Prefs.removePin(this)
-        val wasHidden = IconHider.isHidden(this)
+        val wasHidden = IconHider.isHidden(this) || Prefs.isIconTempRevealed(this)
         if (wasHidden) IconHider.setHidden(this, false)
+        Prefs.setIconTempRevealed(this, false)
         refresh(animate = true)
         snack(if (wasHidden) "Senha removida e ícone visível de novo" else "Senha removida")
     }
@@ -257,9 +264,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onHideRow() {
-        if (IconHider.isHidden(this)) {
+        if (IconHider.isHidden(this) || Prefs.isIconTempRevealed(this)) {
             withPin("Mostrar ícone") {
                 IconHider.setHidden(this, false)
+                Prefs.setIconTempRevealed(this, false)
                 refresh(animate = true)
                 snack("Ícone visível de novo")
             }
@@ -418,6 +426,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val copy = view.findViewById<MaterialButton>(R.id.btnSheetCopyCode)
+        copy.visibility = if (Prefs.hasPin(this)) View.VISIBLE else View.GONE
+        copy.setOnClickListener { haptic(it); onCopyCodeRow() }
+
         val primary = view.findViewById<MaterialButton>(R.id.btnSheetPrimary)
         val secondary = view.findViewById<MaterialButton>(R.id.btnSheetSecondary)
         if (forHiding) {
@@ -426,6 +438,7 @@ class MainActivity : AppCompatActivity() {
             primary.setOnClickListener {
                 haptic(it)
                 IconHider.setHidden(this, true)
+                Prefs.setIconTempRevealed(this, false)
                 sheet.dismiss()
                 refresh(animate = true)
                 snack("Ícone escondido. Para voltar: *#*#senha#*#* no discador")

@@ -82,6 +82,15 @@ object Prefs {
         return Base64.encodeToString(bytes, Base64.NO_WRAP)
     }
 
+    // ---- Ícone mostrado temporariamente pelo código do discador ----
+
+    /** true = o ícone estava escondido e foi mostrado pelo código; volta a se esconder ao sair do app. */
+    fun isIconTempRevealed(c: Context) = sp(c).getBoolean("icon_temp_revealed", false)
+
+    fun setIconTempRevealed(c: Context, value: Boolean) {
+        sp(c).edit().putBoolean("icon_temp_revealed", value).apply()
+    }
+
     // ---- Tela de ajuda ----
 
     fun wasHelpSeen(c: Context) = sp(c).getBoolean("help_seen", false)
