@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-        O app não pede NENHUMA permissão. Isso é necessário para o ícone poder ser escondido
-        de verdade no Android 10+ (apps com permissões ganham um ícone "fantasma").
-        A biblioteca AndroidX adiciona esta permissão interna sozinha; aqui ela é removida.
-    -->
-    <uses-permission
-        android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-        tools:node="remove" />
+    <!-- O app não pede nenhuma permissão. Nada é coletado ou enviado. -->
 
     <application
         android:allowBackup="false"
@@ -19,24 +11,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BloqueiaShorts">
 
+        <!--
+            exported="true" também deixa o botão "Configurações" de Acessibilidade > BloqueiaShorts
+            abrir esta tela — é assim que se abre o app quando o ícone está escondido pelo celular.
+        -->
         <activity
             android:name=".MainActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:launchMode="singleTask" />
-
-        <!-- Ícone da tela inicial. Desligar este alias esconde o app. -->
-        <activity-alias
-            android:name=".LauncherAlias"
             android:exported="true"
-            android:targetActivity=".MainActivity">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias>
-
-        <!-- O código secreto *#*#SENHA#*#* é lido do discador pelo ShortsBlockerService. -->
+        </activity>
 
         <service
             android:name=".ShortsBlockerService"

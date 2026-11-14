@@ -82,15 +82,6 @@ object Prefs {
         return Base64.encodeToString(bytes, Base64.NO_WRAP)
     }
 
-    // ---- Ícone mostrado temporariamente pelo código do discador ----
-
-    /** true = o ícone estava escondido e foi mostrado pelo código; volta a se esconder ao sair do app. */
-    fun isIconTempRevealed(c: Context) = sp(c).getBoolean("icon_temp_revealed", false)
-
-    fun setIconTempRevealed(c: Context, value: Boolean) {
-        sp(c).edit().putBoolean("icon_temp_revealed", value).apply()
-    }
-
     // ---- Serviço desligado para usar app de banco ----
 
     fun isBankMode(c: Context) = sp(c).getBoolean("bank_mode", false)
@@ -106,10 +97,4 @@ object Prefs {
     fun setHelpSeen(c: Context) {
         sp(c).edit().putBoolean("help_seen", true).apply()
     }
-
-    /**
-     * A proteção das configurações só vale com senha definida e bloqueio ligado.
-     * Para mexer no app pelas Configurações, basta pausar o bloqueio (com a senha).
-     */
-    fun isTamperProtectionActive(c: Context) = hasPin(c) && isBlockingOn(c)
 }

@@ -3,9 +3,9 @@ package com.bloqueiashorts
 import android.os.SystemClock
 
 /**
- * Desbloqueio temporário, só em memória: depois de acertar a senha (na tela ou pelo
- * código do discador), as próximas ações não pedem a senha de novo por um tempo.
- * Some quando o processo morre ou quando a tela do app sai de vista.
+ * Desbloqueio temporário, só em memória: depois de acertar a senha, as próximas ações
+ * não pedem a senha de novo por um tempo. Some quando o processo morre ou quando a
+ * tela do app sai de vista.
  */
 object Session {
     private const val DEFAULT_MS = 2 * 60_000L
@@ -21,17 +21,4 @@ object Session {
     }
 
     fun isUnlocked() = SystemClock.elapsedRealtime() < unlockedUntil
-
-    /** Libera por pouco tempo as telas do sistema que a proteção bloqueia (aberta pelo próprio app). */
-    private var systemScreensUntil = 0L
-
-    fun allowSystemScreens(ms: Long = 60_000L) {
-        systemScreensUntil = SystemClock.elapsedRealtime() + ms
-    }
-
-    fun systemScreensAllowed() = SystemClock.elapsedRealtime() < systemScreensUntil
-
-    /** Última vez que a tela principal apareceu (para saber se o código do discador conseguiu abri-la). */
-    @Volatile
-    var lastResumedAt = 0L
 }

@@ -6,37 +6,34 @@
 
 <p align="center">
   <b>Menos rolagem, mais vida.</b><br>
-  App Android gratuito e de código aberto que bloqueia vídeos curtos:
-  YouTube Shorts, Instagram Reels, TikTok, Kwai e os mesmos vídeos abertos no navegador.
+  App Android gratuito e de código aberto que bloqueia os <b>Shorts do YouTube</b>,
+  sem modo desenvolvedor, sem computador e sem atrapalhar os apps de banco.
 </p>
 
 <p align="center">
   <a href="https://github.com/anddrad3/BloqueiaShorts/releases/latest"><b>⬇️ Baixar a versão mais recente</b></a>
   &nbsp;·&nbsp;
-  <a href="#guia-completo-de-instalação-passo-a-passo"><b>📖 Guia de instalação</b></a>
+  <a href="#instalação"><b>📖 Instalação</b></a>
 </p>
 
 ---
 
+> [!WARNING]
+> **Usou a versão 1.x? Leia isto primeiro.**
+> As versões 1.0 a 1.2 eram instaladas com o **modo desenvolvedor e a depuração USB/Wi-Fi ligados** e
+> vigiavam o discador e as Configurações. Com isso, **vários apps de banco pararam de abrir**.
+> Veja [como deixar o celular normal de novo](#meu-banco-parou-de-abrir-depois-da-versão-1x) e
+> [por que o app mudou](#por-que-o-app-mudou-na-versão-20).
+
 ## Sumário
 
 - [O que o app faz](#o-que-o-app-faz)
-- [Guia completo de instalação (passo a passo)](#guia-completo-de-instalação-passo-a-passo)
-  - [Antes de começar](#antes-de-começar)
-  - [Etapa 1 — Ativar o modo desenvolvedor](#etapa-1--ativar-o-modo-desenvolvedor)
-  - [Etapa 2 — Ligar as opções de depuração](#etapa-2--ligar-as-opções-de-depuração)
-  - [Etapa 3 — Baixar e extrair o instalador](#etapa-3--baixar-e-extrair-o-instalador)
-  - [Etapa 4 — Rodar o instalador no computador](#etapa-4--rodar-o-instalador-no-computador)
-  - [Etapa 5 — Conectar o celular](#etapa-5--conectar-o-celular)
-  - [Etapa 6 — Ativar o BloqueiaShorts](#etapa-6--ativar-o-bloqueiashorts)
-  - [Etapa 7 — Ajustes do celular (não pule!)](#etapa-7--ajustes-do-celular-não-pule)
-  - [Etapa 8 — Testar](#etapa-8--testar)
-  - [Etapa 9 — Senha e modo invisível (opcional)](#etapa-9--senha-e-modo-invisível-opcional)
-  - [Etapa 10 — Desligar a depuração (opcional)](#etapa-10--desligar-a-depuração-opcional)
-- [Instalar sem computador](#instalar-sem-computador)
+- [Por que o app mudou na versão 2.0](#por-que-o-app-mudou-na-versão-20)
+- [Instalação](#instalação)
+- [Esconder o ícone (pelo próprio celular)](#esconder-o-ícone-pelo-próprio-celular)
 - [Funcionalidades](#funcionalidades)
+- [Apps de banco](#apps-de-banco)
 - [Problemas e soluções](#problemas-e-soluções)
-- [Perguntas frequentes](#perguntas-frequentes)
 - [Privacidade](#privacidade)
 - [Como funciona por dentro](#como-funciona-por-dentro)
 - [Compilar a partir do código](#compilar-a-partir-do-código)
@@ -47,307 +44,116 @@
 
 ## O que o app faz
 
-O BloqueiaShorts usa o serviço de **Acessibilidade** do Android para saber qual tela está aberta.
-Quando aparece um vídeo curto, ele age sozinho:
+Quando você abre um Short no app do YouTube, o BloqueiaShorts aperta **"voltar"** na hora e mostra
+"Shorts bloqueado". O resto do YouTube continua normal: vídeos comuns, busca, inscrições, playlists.
 
-| Onde | O que acontece |
+- ✅ Bloqueia o player de Shorts no app do YouTube.
+- ✅ Senha opcional para ninguém pausar o bloqueio.
+- ✅ Funciona com o ícone escondido pelo próprio celular.
+- ❌ Não observa nenhum outro app: Instagram, TikTok, navegador, banco, WhatsApp... o app nem enxerga.
+- ❌ Não lê o que você digita, não coleta nada e não usa internet.
+
+---
+
+## Por que o app mudou na versão 2.0
+
+A versão 1.x funcionava, mas **quebrava os apps de banco**, e de um jeito difícil de entender para quem
+instalou. Foram três motivos:
+
+| O que a 1.x fazia | Por que o banco recusava | O que a 2.0 faz |
+|---|---|---|
+| Pedia **modo desenvolvedor + depuração USB/Wi-Fi** para instalar pelo computador | Muitos bancos se recusam a abrir com as Opções do desenvolvedor ligadas | **Instala como qualquer APK.** Para liberar a Acessibilidade, usa o menu "Permitir configurações restritas" do próprio Android |
+| Observava **discador, Configurações, instaladores, Instagram, TikTok, Kwai e 11 navegadores**, e lia **o que era digitado** no discador | É o mesmo comportamento dos golpes de "mão fantasma", que leem a tela e impedem a desinstalação | **Observa só o app do YouTube.** Não lê texto digitado, não faz gestos, não desenha por cima de outros apps |
+| Escondia o próprio ícone e **impedia a desinstalação** quando havia senha | "Não deixa desinstalar" é outra característica típica de vírus | **O ícone é escondido pelo próprio celular**, e o app pode ser desinstalado normalmente |
+
+A conclusão é simples: **um app que lê a tela não pode também se comportar como vírus.** A 2.0 pede o
+mínimo que dá para pedir. A troca é que fica um pouco mais fácil burlar o bloqueio (desligando em
+Acessibilidade ou desinstalando), mas o seu celular continua funcionando.
+
+**O que saiu:** Instagram Reels, TikTok, Kwai, bloqueio no navegador, o código secreto `*#*#senha#*#*`,
+o modo invisível dentro do app, a proteção contra desligar e os instaladores pelo computador
+(`Instalar-Windows.bat` / `.sh`).
+
+---
+
+## Instalação
+
+Não precisa de computador nem de modo desenvolvedor.
+
+1. **Baixe o APK** em [Releases](https://github.com/anddrad3/BloqueiaShorts/releases/latest)
+   (`BloqueiaShorts.apk`) direto no celular.
+2. **Instale.** O Android vai pedir para permitir instalar apps do navegador ou do gerenciador de arquivos: permita.
+3. **Abra o BloqueiaShorts** e toque em **"Abrir Acessibilidade"** → **Apps baixados** (ou *Serviços instalados*)
+   → **BloqueiaShorts** → ligue a chave.
+4. **Apareceu "Configuração restrita"?** (Android 13 ou mais novo.) É normal para app de fora da loja:
+   - Volte ao BloqueiaShorts → **"Apareceu Configuração restrita?"** → **Abrir informações do app**.
+   - Toque nos **⋮** (canto superior direito) → **"Permitir configurações restritas"**.
+   - **Xiaomi/Redmi/Poco:** nos ⋮, toque antes em **"Informações do app"** (abre a tela original do Android)
+     e, nela, nos ⋮ de novo → **"Permitir configurações restritas"**.
+   - Volte em Acessibilidade e ligue a chave.
+5. **Ajustes do celular:** na tela do app, deixe a **bateria "Sem restrições"** e, na Xiaomi, ligue a
+   **"Inicialização automática"**. Sem isso, o sistema pode desligar o bloqueio sozinho.
+6. **Teste:** abra o YouTube e toque num Short. Ele deve fechar na hora.
+
+> Atualizando da versão 1.x? **Desinstale a versão antiga primeiro**, siga a
+> [limpeza do celular](#meu-banco-parou-de-abrir-depois-da-versão-1x) e depois instale a 2.0.
+
+---
+
+## Esconder o ícone (pelo próprio celular)
+
+O BloqueiaShorts não esconde mais o próprio ícone. Quem esconde é o celular, que já tem essa opção, e o
+bloqueio continua funcionando normalmente. Os nomes dos menus mudam um pouco de versão para versão.
+
+| Celular | Como esconder |
 |---|---|
-| **YouTube Shorts** (app do YouTube) | Aperta "voltar" assim que o player de Shorts abre |
-| **Instagram Reels** | Aperta "voltar" ao abrir o player de Reels |
-| **TikTok, TikTok Lite, Kwai, Douyin, Kuaishou** | Vai direto para a tela inicial — o app inteiro é bloqueado |
-| **No navegador** (Chrome, Firefox, Samsung Internet, Edge, Brave, Opera, DuckDuckGo, navegador da Mi) | Aperta "voltar" ao abrir links de `youtube.com/shorts`, `instagram.com/reels`, `tiktok.com` e `kwai.com` |
-
-Vídeos normais do YouTube **não** são bloqueados — só o formato curto.
-
-> **Testado em:** Redmi Note 11S, Android 13 (MIUI 14) — YouTube Shorts no app e no Chrome.
-> Os demais apps e navegadores foram configurados, mas ainda não testados em aparelho.
-> Encontrou algo que não bloqueia? [Abra uma issue](https://github.com/anddrad3/BloqueiaShorts/issues).
-
----
-
-## Guia completo de instalação (passo a passo)
-
-### Por que instalar pelo computador?
-
-A partir do **Android 13**, apps instalados por fora de uma loja (navegador, WhatsApp, Telegram…) ficam com a
-Acessibilidade bloqueada pelo aviso **"Configuração restrita"**. Em alguns celulares — principalmente
-**Xiaomi, Redmi e Poco** — **não existe** nenhuma opção para liberar.
-
-Instalando **pelo computador**, esse aviso **não aparece**, em nenhum celular. O instalador faz tudo sozinho:
-você só precisa preparar o celular uma vez. Leva uns **10 minutos**.
-
-### Antes de começar
-
-Você vai precisar de:
-
-- ✅ Um celular **Android 7.0 ou mais novo**.
-- ✅ Um computador **Windows, Mac ou Linux** com internet.
-- ✅ **Uma** destas formas de ligar o celular ao computador:
-  - **Wi-Fi** (recomendado): celular e computador **na mesma rede Wi-Fi**. Precisa de **Android 11 ou mais novo**.
-  - **Cabo USB**: precisa ser um cabo que **transfere dados** (muitos cabos só carregam).
-- ✅ **Xiaomi / Redmi / Poco:** estar **logado na conta Mi** e ter um **chip (SIM)** no celular.
-
-> 💡 Descobrir a versão do Android: **Configurações → Sobre o telefone → Versão do Android**.
-
----
-
-### Etapa 1 — Ativar o modo desenvolvedor
-
-O "modo desenvolvedor" libera um menu escondido chamado **Opções do desenvolvedor**. É seguro e pode ser desligado depois.
-
-1. Abra o app **Configurações** do celular.
-2. Entre em **Sobre o telefone** (em alguns aparelhos fica no fim da lista).
-3. Toque **7 vezes seguidas** no item indicado na tabela abaixo para a sua marca.
-4. O celular pode pedir o **PIN/senha/padrão de desbloqueio** — digite.
-5. Aparece a mensagem **"Você agora é um desenvolvedor!"** (ou "O modo de desenvolvedor foi ativado").
-
-| Marca | Onde tocar 7 vezes | Onde ficam as **Opções do desenvolvedor** depois |
-|---|---|---|
-| **Xiaomi / Redmi / Poco** | Sobre o telefone → **"Versão do MIUI"** ou **"Versão do SO HyperOS"** | Configurações → **Configurações adicionais** → Opções do desenvolvedor |
-| **Samsung** | Sobre o telefone → **Informações do software** → **"Número de compilação"** | Configurações → **Opções do desenvolvedor** (no fim da lista) |
-| **Motorola** | Sobre o telefone → **"Número da versão"** | Configurações → **Sistema** → Opções do desenvolvedor |
-| **Google Pixel** | Sobre o telefone → **"Número da versão"** | Configurações → **Sistema** → Opções do desenvolvedor |
-| **Outras marcas** | Sobre o telefone → **"Número da versão"** / **"Número de compilação"** (às vezes dentro de "Informações do software") | Configurações → **Sistema** ou **Configurações adicionais** → Opções do desenvolvedor |
-
-> 💡 Não achou? Use a **busca** no topo das Configurações e procure por **"número da versão"**, **"número de compilação"** ou **"opções do desenvolvedor"**.
-
----
-
-### Etapa 2 — Ligar as opções de depuração
-
-Abra as **Opções do desenvolvedor** (veja a última coluna da tabela acima) e ligue:
-
-**Se for usar Wi-Fi:**
-1. Role até **"Depuração por Wi-Fi"** (às vezes "Depuração sem fio").
-2. Ligue a chave. Se perguntar **"Permitir depuração por Wi-Fi nesta rede?"**, marque **"Sempre permitir nesta rede"** e toque em **Permitir**.
-
-**Se for usar cabo:**
-1. Ligue **"Depuração USB"** e confirme em **OK**.
-
-**Só para Xiaomi / Redmi / Poco — obrigatório nos dois casos:**
-1. Ligue **"Instalar via USB"**.
-   - A Xiaomi pode pedir para **entrar na conta Mi** e mostrar **avisos com contagem regressiva** — espere e toque em **Aceitar**.
-   - Se aparecer *"Insira um cartão SIM"* ou falha de rede: coloque o chip e **ligue os dados móveis** por um instante (a Xiaomi confere online). Depois pode desligar.
-2. Se existir, ligue também **"Depuração USB (Configurações de segurança)"**.
-
-> ⚠️ Sem **"Instalar via USB"**, a Xiaomi recusa a instalação com o erro `INSTALL_FAILED_USER_RESTRICTED`.
-
----
-
-### Etapa 3 — Baixar e extrair o instalador
-
-1. No **computador**, abra a página de [**Releases**](https://github.com/anddrad3/BloqueiaShorts/releases/latest).
-2. Em **Assets**, clique em **`BloqueiaShorts-Instalador-PC.zip`** para baixar.
-3. **Extraia** o ZIP (não rode de dentro do ZIP):
-   - **Windows:** clique com o botão direito no arquivo → **Extrair tudo…** → **Extrair**.
-   - **Mac:** dois cliques no arquivo.
-   - **Linux:** `unzip BloqueiaShorts-Instalador-PC.zip`
-4. Abra a pasta extraída. Dentro dela devem estar:
-   - `Instalar-Windows.bat` e `instalar-mac-linux.sh` — **instaladores**;
-   - `Desinstalar-Windows.bat` e `desinstalar-mac-linux.sh` — **desinstaladores de emergência** (se esquecer a senha ou ficar sem acesso);
-   - `BloqueiaShorts.apk` e `LEIA-ME.txt`.
-
----
-
-### Etapa 4 — Rodar o instalador no computador
-
-**Windows**
-1. Dê **dois cliques** em **`Instalar-Windows.bat`**.
-2. Se aparecer a tela azul **"O Windows protegeu o computador"**: clique em **Mais informações** → **Executar assim mesmo**.
-   (Isso aparece com qualquer arquivo baixado da internet que não seja assinado por uma empresa.)
-3. Abre uma janela preta (Prompt de Comando). Na primeira vez, ele **baixa a ferramenta oficial do Google (adb)**, ~7 MB.
-
-**Mac / Linux**
-1. Abra o **Terminal**.
-2. Digite `cd ` (com espaço), **arraste a pasta extraída** para dentro do Terminal e aperte **Enter**.
-3. Digite `bash instalar-mac-linux.sh` e aperte **Enter**.
-
-O instalador então pergunta:
-
-```
-Como o celular vai se conectar?
-  1 = Cabo USB
-  2 = Wi-Fi
-```
-
-Digite **`2`** (Wi-Fi) ou **`1`** (cabo) e aperte **Enter**.
-
----
-
-### Etapa 5 — Conectar o celular
-
-#### Opção Wi-Fi (digitou `2`)
-
-Na primeira vez, o celular precisa ser **pareado** com o computador com um código.
-
-1. No celular, abra **Opções do desenvolvedor**.
-2. Toque no **nome** **"Depuração por Wi-Fi"** — **não só na chave**. Abre uma tela com:
-   - o nome do aparelho e **"Endereço IP e porta"** (ex.: `192.168.1.66:41555`) — esse é o endereço de **conexão**;
-   - a opção **"Parear dispositivo com código de pareamento"**.
-3. Toque em **"Parear dispositivo com código de pareamento"**. Abre uma janelinha com:
-   - **"Código de pareamento Wi-Fi"** — 6 números (ex.: `128177`);
-   - **"Endereço IP e porta"** — outro endereço, só para o pareamento.
-4. **Deixe essa janelinha aberta** e, no computador, digite **apenas os 6 números** e aperte **Enter**.
-5. O instalador encontra o celular **sozinho** na rede e mostra `Successfully paired`.
-
-> ⚠️ **Não confunda os dois endereços.** Se o instalador pedir um endereço, ele diz qual:
-> o **da janelinha** (pareamento) ou o **da tela "Depuração por Wi-Fi"** (conexão).
-> Digitar o endereço errado dá `protocol fault`.
-
-Nas próximas vezes, se o celular continuar pareado, o instalador conecta direto, sem código.
-
-#### Opção cabo USB (digitou `1`)
-
-1. Conecte o cabo no celular e no computador.
-2. Desbloqueie o celular. Aparece **"Permitir depuração USB?"** → marque **"Sempre permitir deste computador"** → **OK**.
-3. Se não aparecer: puxe a barra de notificações, toque em **"Carregando via USB"** e escolha **"Transferência de arquivos"**.
-
-#### A instalação
-
-Com o celular conectado, o instalador mostra `Celular conectado. Instalando...`.
-
-- **👀 Olhe para o celular agora!** O instalador avisa com um quadro grande na tela. Vai aparecer no celular um aviso com o botão **"Instalar"** — **toque em "Instalar"**. O aviso some sozinho em poucos segundos; se você não tocar, a instalação é cancelada e é só rodar o instalador de novo.
-- Se já existir uma versão antiga com "Configuração restrita" ou com outra assinatura, o instalador **remove e instala de novo** sozinho.
-- No fim aparece **`PRONTO!`** e o BloqueiaShorts **abre sozinho no celular**.
-
----
-
-### Etapa 6 — Ativar o BloqueiaShorts
-
-1. Na tela do BloqueiaShorts aparece **"Quase lá"** em vermelho. Toque em **Abrir Acessibilidade**.
-2. Procure a seção **"Apps baixados"** (ou "Serviços instalados" / "Apps instalados").
-3. Toque em **BloqueiaShorts**.
-4. Ligue a chave **"Usar BloqueiaShorts"**.
-5. Aparece um aviso dizendo que o app poderá **ver e controlar a tela**. Toque em **Permitir**.
-   (É o que permite apertar "voltar" por você. Nada é salvo nem enviado — veja [Privacidade](#privacidade).)
-6. Volte para o BloqueiaShorts: agora deve aparecer **"Proteção ativa"** em verde. ✅
-
-Instalou pelo computador e mesmo assim apareceu **"Configuração restrita"**? Rode o instalador de novo — ele remove a versão travada.
-
----
-
-### Etapa 7 — Ajustes do celular (não pule!)
-
-Muitos celulares desligam apps em segundo plano para economizar bateria. No BloqueiaShorts, o cartão
-**"Ajustes do celular"** mostra tudo o que precisa e abre a tela certa ao tocar.
-
-Cada item mostra ✅ (ok), ⚠️ (precisa ajustar) ou ⓘ (o app não consegue conferir — toque e veja você mesmo).
-
-| Item | O que fazer na tela que abrir | Por quê |
-|---|---|---|
-| **Acessibilidade** | Deixe o BloqueiaShorts ligado | Sem isso nada funciona |
-| **Bateria sem restrições** | Escolha **"Sem restrições"** (Xiaomi) ou **"Não otimizar"** / **"Irrestrito"** | Impede o sistema de desligar o bloqueio |
-| **Inicialização automática** *(Xiaomi)* | Ligue a chave do **BloqueiaShorts** | O bloqueio volta sozinho depois de reiniciar |
-| **Janelas pop-up em segundo plano** *(Xiaomi)* | Em **Outras permissões**, permita **"Exibir janelas pop-up enquanto executado em segundo plano"** | Opcional: faz o botão "Abrir" do cartão do código secreto funcionar |
-
-> Samsung: em *Configurações → Bateria → Limites de uso em segundo plano*, confira se o BloqueiaShorts **não** está em "Apps em suspensão".
-
----
-
-### Etapa 8 — Testar
-
-1. Abra o **YouTube** e toque em qualquer **Short** (ou na aba Shorts).
-2. Em menos de 1 segundo o app deve **voltar sozinho**. ✅
-3. Opcional: no Chrome, abra `youtube.com/shorts` — deve voltar também.
-
----
-
-### Etapa 9 — Senha e modo invisível (opcional)
-
-**Senha** — impede que alguém (ou você mesmo, num impulso) desligue o bloqueio:
-1. No app: **Segurança → Definir senha**. Só números, no mínimo 4. Digite duas vezes.
-2. **Anote a senha em um lugar seguro.** Ela também é o código para reabrir o app escondido.
-
-**Teste o código ANTES de esconder o ícone:**
-1. Saia do BloqueiaShorts e abra o app **Telefone** (discador).
-2. Digite `*#*#` + sua senha + `#*#*` — por exemplo, senha `2580` → `*#*#2580#*#*`. Não precisa apertar ligar.
-3. O código some do discador (o app apaga para ninguém ver sua senha) e aparece o aviso **"BloqueiaShorts desbloqueado ✅"**.
-4. **O ícone do BloqueiaShorts aparece na tela inicial** — toque nele para abrir. Isso funciona em qualquer celular.
-   Em alguns celulares aparece também um cartão por cima do discador com o botão **Abrir o BloqueiaShorts** (atalho).
-5. Quando você sair do app, **o ícone se esconde de novo sozinho**. Se não abrir em 3 minutos, ele também se esconde.
-6. Se nada acontecer: confira se o serviço de Acessibilidade está **ativo**, se você definiu uma senha e se não errou a senha 5 vezes seguidas (aí o app espera 1 minuto).
-
-**Esconder o ícone** (só depois que o teste acima funcionou):
-1. No app: **Modo invisível → Esconder ícone** → digite a senha → leia o aviso → **Esconder agora**.
-2. Para reabrir: digite o código no discador. Dica: em **Modo invisível → Como reabrir o app**, o botão **"Copiar código de reabertura"** copia o código pronto para colar.
-3. Para mostrar o ícone **de vez**: abra pelo código → desligue **Esconder ícone**.
-
-> 🛟 **Rede de segurança:** o código certo sempre devolve o ícone à tela inicial, e o **desinstalador de emergência**
-> remove o app pelo computador em qualquer situação.
-
----
-
-### Etapa 10 — Desligar a depuração (opcional)
-
-A depuração só era necessária para instalar. Por segurança, você pode desligar em **Opções do desenvolvedor**:
-**Depuração por Wi-Fi**, **Depuração USB** e **Instalar via USB**. O BloqueiaShorts continua funcionando.
-(Para atualizar o app no futuro, ligue de novo e rode o instalador da versão nova.)
-
----
-
-## Instalar sem computador
-
-Também dá para instalar o **`BloqueiaShorts.apk`** direto no celular, mas no **Android 13+** vai aparecer
-**"Configuração restrita"** ao ligar a Acessibilidade.
-
-1. Baixe o `BloqueiaShorts.apk` no celular e abra → **Instalar**. Se pedir, permita **"Instalar apps desconhecidos"**.
-   Se o **Play Protect** avisar: **Mais detalhes → Instalar mesmo assim**.
-2. Abra o app → **Abrir Acessibilidade** → BloqueiaShorts → tente ligar (o aviso aparece — tudo bem).
-3. Libere conforme a marca (o app mostra este passo a passo em **"Apareceu 'Configuração restrita'?"**):
-
-**Samsung, Motorola, Pixel e a maioria:** segure o ícone → **Informações do app** → **⋮** (canto superior direito) →
-**"Permitir configurações restritas"** → confirme → volte e ligue a Acessibilidade.
-
-**Xiaomi — tente:** segure o ícone → **Informações do app** → **⋮** → **"Informações do app"** → **⋮** de novo →
-**"Permitir configurações restritas"**.
-
-**Xiaomi sem essa opção:** use o [instalador pelo computador](#guia-completo-de-instalação-passo-a-passo) ou o caminho **Shizuku + SAI**:
-
-<details>
-<summary><b>Passo a passo: Shizuku + SAI</b></summary>
-
-1. Instale pela Play Store: **Shizuku** e **SAI (Split APKs Installer)**.
-2. Faça a [Etapa 1](#etapa-1--ativar-o-modo-desenvolvedor) e ligue **"Depuração por Wi-Fi"** e (Xiaomi) **"Instalar via USB"**.
-3. Abra o **Shizuku** → *"Iniciar via depuração sem fio"* → **Parear**. Ele cria uma **notificação** pedindo um código.
-4. Vá em **Opções do desenvolvedor → Depuração por Wi-Fi → Parear dispositivo com código de pareamento**.
-5. Sem fechar essa tela, puxe as notificações e **digite o código na notificação do Shizuku**.
-6. Volte ao Shizuku → **Iniciar**. Deve aparecer *"Shizuku está em execução"*.
-7. Abra o **SAI** → ⚙️ **Configurações → Instalador** → **Shizuku** → permita.
-8. Desinstale o BloqueiaShorts, se estiver instalado.
-9. No SAI: **Instalar APKs → Seletor de arquivos interno** → escolha o `BloqueiaShorts.apk`.
-10. Siga a partir da [Etapa 6](#etapa-6--ativar-o-bloqueiashorts).
-
-</details>
+| **Samsung (One UI)** | Abra a gaveta de apps → **⋮** → **Configurações** → **"Ocultar apps nas telas Início e Aplicativos"** → marque o BloqueiaShorts → *Concluído*. |
+| **Xiaomi / Redmi / Poco (MIUI, HyperOS)** | **Configurações → Apps → Bloqueio de apps** (em algumas versões: app *Segurança* → *Bloqueio de apps*) → ⚙ ou aba **"Ocultar apps"** → ligue o BloqueiaShorts. Para ver os apps ocultos: na tela inicial, afaste dois dedos (gesto de zoom) e digite a senha. |
+| **Oppo / Realme / OnePlus (ColorOS)** | **Configurações → Privacidade → Ocultar apps** → ligue o BloqueiaShorts. O sistema pede um código de acesso, que se digita no app Telefone. |
+| **Motorola, Pixel e outros** | Muitos não têm a opção no launcher padrão. Use um launcher da Play Store que oculta apps (Nova Launcher, Niagara, Smart Launcher) ou coloque o app numa pasta com outro nome. |
+
+**Para abrir o app com o ícone escondido, em qualquer celular:**
+**Configurações → Acessibilidade → Apps baixados → BloqueiaShorts → Configurações.**
+Esse botão "Configurações" é um recurso oficial do Android e abre o app direto.
+
+> ⚠️ **Não coloque o app no "Espaço privado" (Android 15) nem na "Pasta Segura" (Samsung).**
+> Lá dentro os apps param de rodar quando o espaço é trancado, e o bloqueio para junto.
 
 ---
 
 ## Funcionalidades
 
-### 🔒 Senha
-Opcional, só números (mínimo 4). Com senha, é preciso digitá-la para **pausar/ativar o bloqueio**,
-**esconder o ícone**, **trocar** ou **remover a senha** e abrir telas de ajuste. Depois de 5 senhas erradas, o app espera 1 minuto.
-A senha fica salva apenas como *hash* (SHA-256 com *salt*) no próprio celular.
+- **🛡️ Bloqueio de Shorts:** detecta o player de Shorts em tela cheia (as miniaturas no feed são ignoradas)
+  e volta. Se "voltar" não resolver em 3 tentativas, vai para a tela inicial.
+- **⏸️ Pausar:** libera os Shorts sem desligar o app.
+- **🔒 Senha (opcional):** pedida para pausar ou ativar o bloqueio, desligar para o banco e remover a senha.
+  Depois de 5 erros seguidos, espera 1 minuto.
+- **🏦 Desligar para usar app de banco:** só se o seu banco reclamar (veja abaixo).
+- **⚙️ Ajustes do celular:** mostra se a bateria e a inicialização automática (Xiaomi) estão certas e leva até a tela.
 
-### 🛡️ Proteção contra desligar
-Com senha e bloqueio ativo, o app **sai das telas do sistema que servem para desligá-lo**: a tela de informações do
-BloqueiaShorts (Desinstalar, Forçar parada, Limpar dados), a chave dele na Acessibilidade e caixas como
-"Interromper o BloqueiaShorts?". Listas de apps e "Outras permissões" continuam acessíveis.
+---
 
-**Precisa mexer nessas telas?** Toque em **Pausar bloqueio** e digite a senha — a proteção desliga junto.
+## Apps de banco
 
-### 👻 Modo invisível
-Esconde o ícone. Reabra digitando **`*#*#SUASENHA#*#*`** no app Telefone: o ícone reaparece por alguns minutos e some de novo quando você sai do app. Detalhes na [Etapa 9](#etapa-9--senha-e-modo-invisível-opcional).
+A 2.0 foi feita para os bancos não confundirem o app com golpe: ela não precisa de modo desenvolvedor,
+observa só o YouTube e não lê o que é digitado. **Mesmo assim, não dá para garantir todos os bancos.**
+Alguns recusam *qualquer* serviço de Acessibilidade que não veio da Play Store.
 
-### 🏦 Desligar para usar app de banco
-Bancos como o **Nubank** bloqueiam o acesso quando há um app de fora da Play Store com a Acessibilidade ligada.
-Na tela principal, toque em **"Desligar para usar app de banco"** (pede a senha, se houver): o BloqueiaShorts se desliga.
-Depois de usar o banco, abra o BloqueiaShorts e toque em **"Religar a proteção"**. Veja a [pergunta frequente](#perguntas-frequentes).
+Se o seu banco recusar: abra o BloqueiaShorts → **"Desligar para usar app de banco"**. Depois de usar o banco,
+toque em **"Religar a proteção"**.
 
-### ⚙️ Ajustes do celular
-Mostra o estado da Acessibilidade, bateria, inicialização automática e janelas pop-up, com atalhos para cada tela.
+### Meu banco parou de abrir depois da versão 1.x
 
-### 🎨 Visual
-Material 3 com modo claro e escuro automáticos, animações e uma tela **"Como o app funciona"** (botão ⓘ).
+1. **Configurações → Acessibilidade → Apps baixados → BloqueiaShorts → desligar.**
+2. **Desinstale o BloqueiaShorts 1.x.** Com o ícone escondido: Configurações → Apps → BloqueiaShorts → Desinstalar.
+   Se a proteção não deixar, desligue antes a Acessibilidade (passo 1) ou reinicie em **modo de segurança**.
+3. **Opções do desenvolvedor → "Revogar autorizações de depuração USB"** e depois **desligue a chave geral no topo**
+   da tela. Isso desliga a depuração USB e Wi-Fi. Na Xiaomi, desligue também "Instalar via USB" antes.
+4. **Reinicie o celular.**
+5. Se o banco continuar recusando: **Configurações → Apps → [banco] → Armazenamento → Limpar dados**
+   (ou reinstale o app do banco pela Play Store) e **cadastre o aparelho de novo** no app do banco.
+6. Se aparecer "dispositivo bloqueado" ou "conta em análise", **ligue para o banco**. Nesse caso o bloqueio
+   está no servidor deles, e só eles podem tirar. Explique que era um app de acessibilidade que você já removeu.
 
 ---
 
@@ -355,100 +161,12 @@ Material 3 com modo claro e escuro automáticos, animações e uma tela **"Como 
 
 | Problema | Solução |
 |---|---|
-| `INSTALL_FAILED_USER_RESTRICTED` | Xiaomi: ligue **"Instalar via USB"** ([Etapa 2](#etapa-2--ligar-as-opções-de-depuração)) e aceite o aviso no celular durante a instalação. |
-| `protocol fault` / `Pareamento falhou` | Você digitou o endereço de conexão no lugar do de pareamento, ou a janelinha fechou. Abra a janelinha de novo e rode o instalador outra vez. |
-| O instalador não acha o celular | Mesma rede Wi-Fi? "Depuração por Wi-Fi" ligada? Tente o cabo. |
-| Cabo não é reconhecido | O cabo pode ser só de carga. Use o Wi-Fi ou outro cabo. |
-| "O Windows protegeu o computador" | **Mais informações → Executar assim mesmo**. |
-| "Configuração restrita" | Instale pelo computador ou veja [Instalar sem computador](#instalar-sem-computador). |
-| Parou de bloquear | Abra o app: se estiver "Quase lá", ative a Acessibilidade de novo. Confira a [Etapa 7](#etapa-7--ajustes-do-celular-não-pule). |
-| O código some do discador mas nada acontece | Atualize para a versão 1.1 ou mais nova: o código passa a mostrar o ícone na tela inicial, o que funciona em qualquer celular. |
-| Na Xiaomi, "Gerenciar apps" fecha sozinho | Versões antigas tinham a proteção rígida demais. Atualize, ou use o **desinstalador de emergência**. |
-| Nubank / app de banco diz que o BloqueiaShorts é "suspeito" e bloqueia a conta | Toque em **"Desligar para usar app de banco"** antes de abrir o banco e religue depois. Veja as [perguntas frequentes](#perguntas-frequentes). |
-| Escondi o ícone e não consigo abrir o app | Veja [Esqueci a senha / fiquei sem acesso](#perguntas-frequentes). |
-
----
-
-## Perguntas frequentes
-
-<details>
-<summary><b>Se eu reiniciar o celular ou a bateria acabar, continua funcionando?</b></summary>
-
-Sim. O serviço de Acessibilidade volta sozinho quando o celular liga, e a senha e as configurações ficam salvas.
-Para isso, faça a [Etapa 7](#etapa-7--ajustes-do-celular-não-pule) (inicialização automática e bateria sem restrições).
-</details>
-
-<details>
-<summary><b>Meu banco (Nubank, etc.) diz que o BloqueiaShorts tem "características suspeitas". É vírus?</b></summary>
-
-**Não.** Bancos bloqueiam por precaução **qualquer** app instalado fora da Play Store que esteja com a
-**Acessibilidade ligada**, porque golpistas usam esse recurso em apps falsos para ler a tela e controlar o celular.
-O BloqueiaShorts não tem acesso à internet e não coleta nada — o código é aberto para qualquer um conferir.
-
-**O que fazer:**
-1. Antes de abrir o app do banco, abra o BloqueiaShorts e toque em **"Desligar para usar app de banco"**.
-2. Use o banco normalmente.
-3. Depois, abra o BloqueiaShorts e toque em **"Religar a proteção"** → ligue a chave em *Acessibilidade → Apps baixados*.
-
-Se o banco continuar bloqueando mesmo com o serviço desligado, ele está olhando apenas se o app está **instalado**:
-nesse caso, é preciso desinstalar para usar o banco (o [desinstalador de emergência](#problemas-e-soluções) ajuda) e instalar de novo depois.
-**Não tente esconder o app do banco** — a verificação existe para proteger a sua conta.
-</details>
-
-<details>
-<summary><b>Esqueci a senha / fiquei sem acesso ao app. E agora?</b></summary>
-
-**Modo de segurança** (sem computador) — nele o BloqueiaShorts não roda:
-1. Segure o botão de desligar → **segure o dedo em "Desligar"** até aparecer **"Reiniciar no modo de segurança"** → OK.
-2. Vá em **Configurações → Apps → BloqueiaShorts** e:
-   - **Desinstale** (para recomeçar do zero), ou
-   - Xiaomi: em **Outras permissões**, permita **"Janelas pop-up em segundo plano"** para o código do discador voltar a abrir o app.
-3. Reinicie normalmente.
-
-**Pelo computador (mais fácil):** ligue a depuração (Etapas [1](#etapa-1--ativar-o-modo-desenvolvedor) e [2](#etapa-2--ligar-as-opções-de-depuração)) e rode o **`Desinstalar-Windows.bat`** (ou `bash desinstalar-mac-linux.sh`) que vem no ZIP. Ele conecta igual ao instalador, pede confirmação e remove o app — funciona com senha, ícone escondido e proteção ativa. Depois, instale de novo.
-</details>
-
-<details>
-<summary><b>Por que o app precisa de Acessibilidade?</b></summary>
-
-É a única forma de um app saber que um vídeo curto abriu dentro de outro app e apertar "voltar" por você.
-O BloqueiaShorts só observa os apps da lista de bloqueio, as telas do sistema protegidas pela senha e o
-discador (apenas para reconhecer o código `*#*#...#*#*`). Nada é salvo nem enviado.
-</details>
-
-<details>
-<summary><b>O app pede alguma permissão?</b></summary>
-
-Nenhuma permissão de internet, contatos, localização, câmera ou armazenamento.
-Ele **nem tem acesso à internet** — é impossível enviar dados para fora.
-</details>
-
-<details>
-<summary><b>O "modo desenvolvedor" deixa meu celular inseguro?</b></summary>
-
-Ter o menu ativado não muda nada. As opções de **depuração** permitem que um computador pareado controle o celular,
-por isso recomendamos desligá-las depois de instalar ([Etapa 10](#etapa-10--desligar-a-depuração-opcional)).
-</details>
-
-<details>
-<summary><b>Dá para bloquear só alguns apps, ou liberar Shorts por um tempo?</b></summary>
-
-Ainda não. Por enquanto existe o botão **Pausar bloqueio** (com senha). Sugestões nas
-[issues](https://github.com/anddrad3/BloqueiaShorts/issues).
-</details>
-
-<details>
-<summary><b>Funciona no Android 15 ou 16?</b></summary>
-
-Sim. No Android 15+ a "Configuração restrita" ficou mais rígida, então prefira a instalação pelo computador.
-</details>
-
-<details>
-<summary><b>Por que não está na Play Store?</b></summary>
-
-Publicar na Play Store custa US$ 25 e o Google é muito rigoroso com apps que usam Acessibilidade.
-Por enquanto a distribuição é gratuita, aqui pelo GitHub.
-</details>
+| **Parou de bloquear depois de um tempo** | Bateria "Sem restrições" e, na Xiaomi, "Inicialização automática". Se continuar, desligue e ligue o BloqueiaShorts em Acessibilidade. |
+| **Não aparece a opção "Permitir configurações restritas"** | Tente ligar o app em Acessibilidade **uma vez antes** (a opção só aparece depois do aviso). Na Xiaomi, use o caminho pela tela original "Informações do app". |
+| **O YouTube atualizou e os Shorts não fecham mais** | O YouTube mudou o nome interno do player. Abra uma [issue](https://github.com/anddrad3/BloqueiaShorts/issues): a correção é trocar os IDs em [`Rules.kt`](app/src/main/java/com/bloqueiashorts/Rules.kt). |
+| **Shorts no navegador (Chrome) não são bloqueados** | É de propósito: observar o navegador significaria ler todos os sites que você visita. |
+| **Esqueci a senha** | Configurações → Acessibilidade → desligue o BloqueiaShorts, ou desinstale e instale de novo. |
+| **Não acho o app depois de esconder** | Configurações → Acessibilidade → Apps baixados → BloqueiaShorts → **Configurações**. |
 
 ---
 
@@ -456,8 +174,9 @@ Por enquanto a distribuição é gratuita, aqui pelo GitHub.
 
 - ❌ Sem internet (o app nem declara a permissão).
 - ❌ Sem anúncios, rastreadores ou análise de uso.
+- ❌ Não observa nenhum app além do YouTube, e do YouTube só procura o player de Shorts.
 - ❌ Nenhum dado salvo além das suas configurações (bloqueio ligado/desligado e o *hash* da senha).
-- ✅ Código 100% aberto — você pode conferir tudo neste repositório.
+- ✅ Código 100% aberto: dá para conferir tudo neste repositório.
 
 ---
 
@@ -465,31 +184,26 @@ Por enquanto a distribuição é gratuita, aqui pelo GitHub.
 
 | Arquivo | Função |
 |---|---|
-| [`Rules.kt`](app/src/main/java/com/bloqueiashorts/Rules.kt) | **Tudo o que é bloqueado**: IDs das telas de vídeo curto, apps bloqueados inteiros, navegadores, padrões de endereço e textos das telas protegidas. |
-| [`ShortsBlockerService.kt`](app/src/main/java/com/bloqueiashorts/ShortsBlockerService.kt) | O serviço de Acessibilidade: detecta o vídeo curto e age; protege as configurações; lê o código do discador. |
-| [`MainActivity.kt`](app/src/main/java/com/bloqueiashorts/MainActivity.kt) | A tela do app (status, ajustes do celular, senha, modo invisível, ajudas). |
-| [`DeviceSetup.kt`](app/src/main/java/com/bloqueiashorts/DeviceSetup.kt) | Estado e atalhos de bateria, inicialização automática e pop-up em segundo plano. |
+| [`Rules.kt`](app/src/main/java/com/bloqueiashorts/Rules.kt) | Pacote do YouTube e IDs das views do player de Shorts. |
+| [`ShortsBlockerService.kt`](app/src/main/java/com/bloqueiashorts/ShortsBlockerService.kt) | O serviço de Acessibilidade: detecta o player de Shorts e aperta "voltar". |
+| [`accessibility_service_config.xml`](app/src/main/res/xml/accessibility_service_config.xml) | O que o serviço pode ver: **só** `com.google.android.youtube`, só eventos de mudança de tela. O `settingsActivity` cria o botão "Configurações" que abre o app escondido. |
+| [`MainActivity.kt`](app/src/main/java/com/bloqueiashorts/MainActivity.kt) | A tela do app (status, ajustes, senha, ajudas). |
+| [`DeviceSetup.kt`](app/src/main/java/com/bloqueiashorts/DeviceSetup.kt) | Estado e atalhos de bateria e inicialização automática (Xiaomi). |
 | [`Prefs.kt`](app/src/main/java/com/bloqueiashorts/Prefs.kt) | Configurações salvas e a senha (SHA-256 com *salt*). |
-| [`IconHider.kt`](app/src/main/java/com/bloqueiashorts/IconHider.kt) | Esconde/mostra o ícone ligando e desligando um `activity-alias`. |
-| [`accessibility_service_config.xml`](app/src/main/res/xml/accessibility_service_config.xml) | Lista de apps que o serviço observa. |
-| [`distribuicao/`](distribuicao) | Instaladores e desinstaladores de emergência pelo computador (`.bat` e `.sh`). |
 
-**Detecção:**
-- **Player dentro de apps (YouTube, Instagram):** procura views com IDs específicos (ex.: `reel_recycler`)
-  que ocupem pelo menos 60% da altura da tela — miniaturas de Shorts no feed são ignoradas.
-- **Navegadores:** lê o texto da barra de endereço (pelo ID conhecido ou procurando no topo da tela).
-- **Robustez:** se o "voltar" não fechar o vídeo, tenta de novo a cada ~0,9 s; após 3 tentativas, vai para a tela inicial.
-  Uma verificação periódica pega vídeos que ficam tocando sem gerar eventos.
+**Detecção:** procura views com IDs do player de Shorts (ex.: `reel_recycler`) que ocupem pelo menos 60% da
+altura da tela. Se o "voltar" não fechar, tenta de novo a cada ~0,9 s; após 3 tentativas, vai para a tela inicial.
+Uma verificação periódica pega vídeos que ficam tocando sem gerar eventos.
 
-**Instalador pelo computador:** baixa o `platform-tools` oficial do Google, descobre o celular por mDNS
-(`adb mdns services`), pareia com o código, escolhe um único aparelho (`ANDROID_SERIAL`), remove versões travadas
-ou com outra assinatura e instala com `adb install`.
+**Princípio de projeto:** o serviço pede o mínimo. Antes de adicionar qualquer app em `packageNames`,
+qualquer tipo de evento ou qualquer capacidade (gestos, filtro de teclas, sobreposição), lembre que é
+justamente isso que faz os bancos recusarem o app.
 
 ---
 
 ## Compilar a partir do código
 
-Requisitos: **JDK 17** e **Android SDK** (plataforma 35) — o jeito mais fácil é instalar o [Android Studio](https://developer.android.com/studio).
+Requisitos: **JDK 17** e **Android SDK** (plataforma 35). O jeito mais fácil é instalar o [Android Studio](https://developer.android.com/studio).
 
 ```bash
 git clone https://github.com/anddrad3/BloqueiaShorts.git
@@ -501,10 +215,7 @@ O APK sai em `app/build/outputs/apk/release/app-release.apk`.
 
 **Assinatura:** o build procura a chave oficial em `~/.bloqueiashorts/keystore.properties`
 (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`). Sem esse arquivo, o release é assinado com a chave
-de depuração — funciona, mas não atualiza por cima da versão oficial.
-
-**Pacote de distribuição:** copie o APK como `BloqueiaShorts.apk` para junto dos arquivos de
-[`distribuicao/`](distribuicao) e compacte tudo em `BloqueiaShorts-Instalador-PC.zip`.
+de depuração: funciona, mas não atualiza por cima da versão oficial.
 
 > Pastas com acentos (ex.: "Área de Trabalho") funcionam: o `gradle.properties` inclui `android.overridePathCheck=true`.
 
@@ -512,20 +223,17 @@ de depuração — funciona, mas não atualiza por cima da versão oficial.
 
 ## Contribuir
 
-Contribuições são muito bem-vindas!
-
-- **O YouTube/Instagram mudou e parou de bloquear?** Descubra os novos IDs das views
-  (Android Studio → *Layout Inspector*, ou `adb shell uiautomator dump`) e atualize [`Rules.kt`](app/src/main/java/com/bloqueiashorts/Rules.kt).
-- **Testou em outro celular/app?** Conte nas [issues](https://github.com/anddrad3/BloqueiaShorts/issues) o que funcionou.
-- **Ideias:** Facebook Reels, Pinterest, Snapchat Spotlight, horários de bloqueio, estatísticas.
-
-Ao adicionar um app novo em `Rules.kt`, inclua o pacote também em `accessibility_service_config.xml`.
+- **O YouTube mudou e parou de bloquear?** Descubra os novos IDs das views (Android Studio → *Layout Inspector*)
+  e atualize [`Rules.kt`](app/src/main/java/com/bloqueiashorts/Rules.kt).
+- **Testou com o seu banco?** Conte nas [issues](https://github.com/anddrad3/BloqueiaShorts/issues) se ele
+  aceitou ou recusou a 2.0. Isso ajuda outras pessoas.
+- **Próximo passo:** publicar na Play Store. Apps vindos da loja são mais aceitos pelos bancos.
 
 ---
 
 ## Licença
 
-Distribuído sob a **GNU General Public License v3.0** — veja [`LICENSE`](LICENSE).
+Distribuído sob a **GNU General Public License v3.0**. Veja [`LICENSE`](LICENSE).
 Você pode usar, estudar, modificar e redistribuir, desde que versões modificadas também sejam abertas sob a GPL-3.0.
 
-*YouTube, Instagram, TikTok e Kwai são marcas de seus respectivos donos. Este projeto não tem relação com essas empresas.*
+*YouTube é marca do Google. Este projeto não tem relação com o Google.*

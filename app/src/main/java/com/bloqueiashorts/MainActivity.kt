@@ -26,7 +26,6 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -35,10 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val EMPHASIZED = PathInterpolator(0.2f, 0f, 0f, 1f)
-        private val BLOCKED_ITEMS = listOf(
-            "YouTube Shorts", "Instagram Reels", "TikTok", "Kwai",
-            "Shorts no navegador", "Reels no navegador", "TikTok no navegador"
-        )
+        private val BLOCKED_ITEMS = listOf("YouTube Shorts")
     }
 
     private enum class State { SERVICE_OFF, ACTIVE, PAUSED }
@@ -50,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var statusTitle: TextView
     private lateinit var statusSubtitle: TextView
     private lateinit var btnMain: MaterialButton
-    private lateinit var switchHide: MaterialSwitch
 
     private var lastState: State? = null
     private var circleColor = 0
@@ -69,28 +64,23 @@ class MainActivity : AppCompatActivity() {
         statusTitle = findViewById(R.id.statusTitle)
         statusSubtitle = findViewById(R.id.statusSubtitle)
         btnMain = findViewById(R.id.btnMain)
-        switchHide = findViewById(R.id.switchHide)
 
         btnMain.setOnClickListener { haptic(it); onMainButton() }
         findViewById<View>(R.id.rowPin).setOnClickListener { haptic(it); onPinRow() }
         findViewById<View>(R.id.rowRemovePin).setOnClickListener { haptic(it); onRemovePinRow() }
-        findViewById<View>(R.id.rowHide).setOnClickListener { haptic(it); onHideRow() }
-        findViewById<View>(R.id.rowHowItWorks).setOnClickListener { haptic(it); showSecretCodeSheet(forHiding = false) }
+        findViewById<View>(R.id.rowHide).setOnClickListener { haptic(it); showHideIconSheet() }
+        findViewById<View>(R.id.rowReopen).setOnClickListener { haptic(it); showReopenInfo() }
         findViewById<View>(R.id.rowSetupA11y).setOnClickListener {
             haptic(it)
-            openSystemScreen("Abrir Acessibilidade") { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
         findViewById<View>(R.id.rowSetupBattery).setOnClickListener {
             haptic(it)
-            openSystemScreen("Abrir bateria") { DeviceSetup.openBatterySettings(this) }
+            DeviceSetup.openBatterySettings(this)
         }
         findViewById<View>(R.id.rowSetupAutostart).setOnClickListener {
             haptic(it)
-            openSystemScreen("Abrir inicialização automática") { DeviceSetup.openAutostartSettings(this) }
-        }
-        findViewById<View>(R.id.rowSetupPopup).setOnClickListener {
-            haptic(it)
-            openSystemScreen("Abrir permissões") { DeviceSetup.openPopupSettings(this) }
+            DeviceSetup.openAutostartSettings(this)
         }
         findViewById<View>(R.id.btnHelp).setOnClickListener { haptic(it); showHelpSheet() }
         findViewById<View>(R.id.btnRestricted).setOnClickListener { haptic(it); showRestrictedSheet() }
@@ -120,18 +110,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Session.lastResumedAt = android.os.SystemClock.elapsedRealtime()
         refresh(animate = true)
     }
 
     override fun onStop() {
         super.onStop()
         Session.lock() // saiu da tela: volta a pedir senha
-        // O ícone foi mostrado só para abrir o app pelo código: esconde de novo ao sair.
-        if (Prefs.isIconTempRevealed(this)) {
-            IconHider.setHidden(this, true)
-            Prefs.setIconTempRevealed(this, false)
-        }
         pulseAnimator?.cancel()
     }
 
@@ -163,13 +147,13 @@ class MainActivity : AppCompatActivity() {
         when (state) {
             State.ACTIVE -> {
                 statusTitle.text = "Proteção ativa"
-                statusSubtitle.text = "Vídeos curtos estão sendo bloqueados."
+                statusSubtitle.text = "Os Shorts do YouTube estão bloqueados."
                 btnMain.text = "Pausar bloqueio"
                 btnMain.setIconResource(R.drawable.ic_pause)
             }
             State.PAUSED -> {
                 statusTitle.text = "Bloqueio pausado"
-                statusSubtitle.text = "Vídeos curtos e configurações do app estão liberados."
+                statusSubtitle.text = "Os Shorts do YouTube estão liberados."
                 btnMain.text = "Ativar bloqueio"
                 btnMain.setIconResource(R.drawable.ic_shield_check)
             }
@@ -202,22 +186,11 @@ class MainActivity : AppCompatActivity() {
         val hasPin = Prefs.hasPin(this)
         findViewById<TextView>(R.id.rowPinTitle).text = if (hasPin) "Alterar senha" else "Definir senha"
         findViewById<TextView>(R.id.rowPinSub).text =
-            if (hasPin) "Protege o bloqueio, as configurações e a desinstalação"
-            else "Sem senha, qualquer pessoa pode desligar"
+            if (hasPin) "Pedida para pausar o bloqueio ou desligar para o banco"
+            else "Sem senha, qualquer pessoa pode pausar o bloqueio"
         val pinOnly = if (hasPin) View.VISIBLE else View.GONE
         listOf(R.id.rowRemovePin, R.id.dividerRemove)
             .forEach { findViewById<View>(it).visibility = pinOnly }
-
-        // Modo invisível
-        val tempRevealed = Prefs.isIconTempRevealed(this)
-        val hidden = IconHider.isHidden(this) || tempRevealed
-        switchHide.isChecked = hidden
-        findViewById<TextView>(R.id.rowHideSub).text = when {
-            tempRevealed -> "Visível só agora · some de novo quando você sair do app"
-            hidden -> "Escondido · abra com *#*#senha#*#*"
-            hasPin -> "Some da tela inicial e da gaveta de apps"
-            else -> "Defina uma senha para usar"
-        }
 
         refreshSetup()
     }
@@ -241,8 +214,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Apps de banco (Nubank e outros) bloqueiam o acesso quando há um serviço de Acessibilidade
-     * ligado que não veio da Play Store. Este botão desliga o serviço do BloqueiaShorts
+     * Alguns apps de banco recusam qualquer serviço de Acessibilidade que não veio da Play Store,
+     * mesmo um tão restrito quanto o do BloqueiaShorts 2.0. Este botão desliga o serviço
      * (recurso oficial do Android) para a pessoa usar o banco, e depois ela religa.
      */
     private fun onBankButton() {
@@ -250,10 +223,10 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Usar app de banco")
             .setIcon(R.drawable.ic_lock)
             .setMessage(
-                "Apps de banco (como o Nubank) bloqueiam o acesso quando um app de fora da Play Store " +
-                    "está com a Acessibilidade ligada — é uma proteção contra golpes, não quer dizer que " +
-                    "o BloqueiaShorts seja perigoso.\n\n" +
-                    "Este botão desliga o BloqueiaShorts. Os vídeos curtos ficam liberados até você religar.\n\n" +
+                "O BloqueiaShorts só observa o YouTube, mas alguns bancos recusam qualquer app de fora " +
+                    "da Play Store com a Acessibilidade ligada — é uma proteção contra golpes.\n\n" +
+                    "Só use este botão se o seu banco reclamar. Ele desliga o BloqueiaShorts e os Shorts " +
+                    "ficam liberados até você religar.\n\n" +
                     "Quando terminar de usar o banco, abra o BloqueiaShorts e toque em “Religar a proteção”."
             )
             .setPositiveButton("Desligar") { _, _ ->
@@ -264,7 +237,6 @@ class MainActivity : AppCompatActivity() {
                         snack("BloqueiaShorts desligado. Pode abrir o app do banco.")
                     } else {
                         // Serviço não estava rodando: abre a Acessibilidade para desligar manualmente.
-                        Session.allowSystemScreens()
                         startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
                     }
                 }
@@ -279,73 +251,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun onRemovePinRow() = withPin("Remover senha") {
         Prefs.removePin(this)
-        val wasHidden = IconHider.isHidden(this) || Prefs.isIconTempRevealed(this)
-        if (wasHidden) IconHider.setHidden(this, false)
-        Prefs.setIconTempRevealed(this, false)
         refresh(animate = true)
-        snack(if (wasHidden) "Senha removida e ícone visível de novo" else "Senha removida")
-    }
-
-    /**
-     * Copia o código de reabertura (*#*#SENHA#*#*). A senha fica salva só como hash,
-     * então o app pede a senha para montar o código.
-     */
-    private fun onCopyCodeRow() {
-        if (!Prefs.hasPin(this)) {
-            snack("Defina uma senha primeiro: o código é *#*#SUASENHA#*#*")
-            return
-        }
-        askPin("Copiar código de reabertura") { pin ->
-            val code = "*#*#$pin#*#*"
-            val clip = android.content.ClipData.newPlainText("Código BloqueiaShorts", code)
-            // Marca como sensível: o Android 13+ não mostra o conteúdo na prévia da área de transferência.
-            clip.description.extras = android.os.PersistableBundle().apply {
-                putBoolean("android.content.extra.IS_SENSITIVE", true)
-            }
-            getSystemService(android.content.ClipboardManager::class.java).setPrimaryClip(clip)
-            snack("Código copiado: $code · cole no app Telefone para abrir o BloqueiaShorts")
-        }
-    }
-
-    private fun onHideRow() {
-        if (IconHider.isHidden(this) || Prefs.isIconTempRevealed(this)) {
-            withPin("Mostrar ícone") {
-                IconHider.setHidden(this, false)
-                Prefs.setIconTempRevealed(this, false)
-                refresh(animate = true)
-                snack("Ícone visível de novo")
-            }
-            return
-        }
-        if (!Prefs.hasPin(this)) {
-            switchHide.animate().translationX(12f).setDuration(60).withEndAction {
-                switchHide.animate().translationX(0f).setDuration(240).setInterpolator(OvershootInterpolator(4f)).start()
-            }.start()
-            snack("Defina uma senha primeiro: ela vira o código para reabrir o app")
-            return
-        }
-        // Na Xiaomi, sem "janelas pop-up em segundo plano" o código do discador não consegue abrir o app.
-        if (DeviceSetup.isXiaomi() && DeviceSetup.isBackgroundPopupAllowed(this) != true) {
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Antes de esconder")
-                .setIcon(R.drawable.ic_warning)
-                .setMessage(
-                    "Na Xiaomi, o código *#*#senha#*#* só consegue abrir o app se a permissão " +
-                        "“Exibir janelas pop-up enquanto executado em segundo plano” estiver ligada.\n\n" +
-                        "Ligue agora para não ficar sem acesso ao app. (Se mesmo assim a Xiaomi impedir, " +
-                        "o ícone volta sozinho quando você digitar o código certo.)"
-                )
-                .setPositiveButton("Abrir permissões") { _, _ ->
-                    openSystemScreen("Abrir permissões") { DeviceSetup.openPopupSettings(this) }
-                }
-                .setNeutralButton("Esconder mesmo assim") { _, _ ->
-                    withPin("Esconder ícone") { showSecretCodeSheet(forHiding = true) }
-                }
-                .setNegativeButton("Cancelar", null)
-                .show()
-            return
-        }
-        withPin("Esconder ícone") { showSecretCodeSheet(forHiding = true) }
+        snack("Senha removida")
     }
 
     // ------------------------------------------------------------------ modais
@@ -360,21 +267,6 @@ class MainActivity : AppCompatActivity() {
         sheet.show()
     }
 
-    /**
-     * Abre uma tela de configuração do sistema. Se a proteção por senha estiver ativa,
-     * pede a senha e libera essas telas por 1 minuto (senão o próprio app tiraria você de lá).
-     */
-    private fun openSystemScreen(title: String, open: () -> Unit) {
-        if (Prefs.isTamperProtectionActive(this)) {
-            withPin(title) {
-                Session.allowSystemScreens()
-                open()
-            }
-        } else {
-            open()
-        }
-    }
-
     private fun refreshSetup() {
         val xiaomi = DeviceSetup.isXiaomi()
         setSetupRow(
@@ -387,18 +279,13 @@ class MainActivity : AppCompatActivity() {
             "Toque e escolha “Sem restrições”"
         )
         val xiaomiRows = if (xiaomi) View.VISIBLE else View.GONE
-        listOf(R.id.rowSetupAutostart, R.id.dividerSetupAutostart, R.id.rowSetupPopup, R.id.dividerSetupPopup)
+        listOf(R.id.rowSetupAutostart, R.id.dividerSetupAutostart)
             .forEach { findViewById<View>(it).visibility = xiaomiRows }
         if (xiaomi) {
             setSetupRow(
                 R.id.iconSetupAutostart, R.id.subSetupAutostart, DeviceSetup.isAutostartAllowed(this),
                 "Ligada · o app volta sozinho ao reiniciar",
                 "Toque e ligue o BloqueiaShorts"
-            )
-            setSetupRow(
-                R.id.iconSetupPopup, R.id.subSetupPopup, DeviceSetup.isBackgroundPopupAllowed(this),
-                "Permitida · o código do discador abre o app",
-                "Necessária para reabrir pelo código *#*#senha#*#*"
             )
         }
     }
@@ -459,42 +346,36 @@ class MainActivity : AppCompatActivity() {
         return sheet to view
     }
 
-    private fun showSecretCodeSheet(forHiding: Boolean) {
-        val (sheet, view) = openSheet(R.layout.sheet_secret_code)
-
-        if (DeviceSetup.isXiaomi()) {
-            view.findViewById<View>(R.id.xiaomiBox).visibility = View.VISIBLE
-            view.findViewById<MaterialButton>(R.id.btnXiaomiPerms).setOnClickListener {
-                haptic(it)
-                openSystemScreen("Abrir permissões") { DeviceSetup.openPopupSettings(this) }
-            }
+    /**
+     * Passo a passo para esconder o ícone pelo próprio celular (Samsung, Xiaomi, Oppo...).
+     * O app não esconde o próprio ícone: isso exigia o código pelo discador, que lia o que
+     * a pessoa digitava — exatamente o que os apps de banco desconfiam.
+     */
+    private fun showHideIconSheet() {
+        val (sheet, view) = openSheet(R.layout.sheet_hide_icon)
+        view.findViewById<MaterialButton>(R.id.btnSheetPrimary).setOnClickListener {
+            haptic(it)
+            sheet.dismiss()
         }
-
-        val copy = view.findViewById<MaterialButton>(R.id.btnSheetCopyCode)
-        copy.visibility = if (Prefs.hasPin(this)) View.VISIBLE else View.GONE
-        copy.setOnClickListener { haptic(it); onCopyCodeRow() }
-
-        val primary = view.findViewById<MaterialButton>(R.id.btnSheetPrimary)
-        val secondary = view.findViewById<MaterialButton>(R.id.btnSheetSecondary)
-        if (forHiding) {
-            primary.text = "Esconder agora"
-            primary.setIconResource(R.drawable.ic_eye_off)
-            primary.setOnClickListener {
-                haptic(it)
-                IconHider.setHidden(this, true)
-                Prefs.setIconTempRevealed(this, false)
-                sheet.dismiss()
-                refresh(animate = true)
-                snack("Ícone escondido. Para voltar: *#*#senha#*#* no discador")
-            }
-            secondary.setOnClickListener { sheet.dismiss() }
-        } else {
-            primary.text = "Entendi"
-            primary.setOnClickListener { haptic(it); sheet.dismiss() }
-            secondary.visibility = View.GONE
-        }
-
         sheet.show()
+    }
+
+    /** Como abrir o app com o ícone escondido: botão "Configurações" do serviço em Acessibilidade. */
+    private fun showReopenInfo() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Abrir com o ícone escondido")
+            .setIcon(R.drawable.ic_accessibility)
+            .setMessage(
+                "Em qualquer celular, mesmo com o ícone escondido:\n\n" +
+                    "Configurações → Acessibilidade → Apps baixados (ou Serviços instalados) → " +
+                    "BloqueiaShorts → Configurações.\n\n" +
+                    "Esse botão “Configurações” abre esta tela direto."
+            )
+            .setPositiveButton("Abrir Acessibilidade") { _, _ ->
+                startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            }
+            .setNegativeButton("Fechar", null)
+            .show()
     }
 
     // ------------------------------------------------------------------ senha
@@ -564,7 +445,7 @@ class MainActivity : AppCompatActivity() {
         val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(if (Prefs.hasPin(this)) "Nova senha" else "Criar senha")
             .setIcon(R.drawable.ic_key)
-            .setMessage("Ela também será o código secreto para reabrir o app pelo discador.")
+            .setMessage("Ela será pedida para pausar o bloqueio, desligar para o banco ou remover a senha.")
             .setView(view)
             .setPositiveButton("Salvar", null)
             .setNegativeButton("Cancelar", null)
@@ -586,7 +467,7 @@ class MainActivity : AppCompatActivity() {
                     Session.unlock()
                     dialog.dismiss()
                     refresh(animate = true)
-                    snack("Senha salva · código secreto: *#*#$pin#*#*")
+                    snack("Senha salva")
                 }
             }
         }

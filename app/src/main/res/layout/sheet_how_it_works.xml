@@ -44,80 +44,63 @@
             android:textColor="@color/muted"
             android:textSize="14sp" />
 
-        <!-- 1. Bloqueio -->
         <LinearLayout style="@style/HelpBlock">
             <ImageView style="@style/RowIconBox" android:importantForAccessibility="no" android:src="@drawable/ic_shield_check" />
             <LinearLayout style="@style/HelpTexts">
                 <TextView style="@style/HelpTitle" android:text="O bloqueio" />
                 <TextView
                     style="@style/HelpBody"
-                    android:text="O app usa o serviço de Acessibilidade do Android para ver qual tela está aberta. Quando aparece um vídeo curto, ele aperta “voltar” sozinho:\n• YouTube Shorts e Instagram Reels: volta ao abrir o player.\n• TikTok e Kwai: vai para a tela inicial.\n• No navegador: volta ao abrir links de Shorts, Reels ou TikTok." />
+                    android:text="O app usa a Acessibilidade do Android, mas observa SÓ o app do YouTube. Quando o player de Shorts abre, ele aperta “voltar” sozinho. Vídeos normais, busca e inscrições continuam livres." />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 2. Senha -->
         <LinearLayout style="@style/HelpBlock">
             <ImageView style="@style/RowIconBox" android:importantForAccessibility="no" android:src="@drawable/ic_key" />
             <LinearLayout style="@style/HelpTexts">
                 <TextView style="@style/HelpTitle" android:text="A senha" />
                 <TextView
                     style="@style/HelpBody"
-                    android:text="Opcional, mas recomendada. Com senha, é preciso digitá-la para pausar ou ativar o bloqueio, esconder o ícone ou remover a senha. Depois de 5 erros seguidos, o app espera 1 minuto." />
+                    android:text="Opcional. Com senha, é preciso digitá-la para pausar ou ativar o bloqueio, desligar para o banco ou remover a senha. Depois de 5 erros seguidos, o app espera 1 minuto." />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 3. Proteção -->
-        <LinearLayout style="@style/HelpBlock">
-            <ImageView style="@style/RowIconBox" android:importantForAccessibility="no" android:src="@drawable/ic_lock" />
-            <LinearLayout style="@style/HelpTexts">
-                <TextView style="@style/HelpTitle" android:text="Proteção contra desligar" />
-                <TextView
-                    style="@style/HelpBody"
-                    android:text="Com senha e bloqueio ligado, o app tira você das telas do sistema onde daria para desligá-lo ou desinstalá-lo (Acessibilidade, Apps, desinstalação). Assim a senha não pode ser driblada.\n\nPrecisa mexer nessas telas? Pause o bloqueio com a senha: a proteção desliga junto. Ao ativar de novo, ela volta." />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- 5. Modo invisível -->
-        <LinearLayout style="@style/HelpBlock">
-            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_eye_off" />
-            <LinearLayout style="@style/HelpTexts">
-                <TextView style="@style/HelpTitle" android:text="Modo invisível" />
-                <TextView
-                    style="@style/HelpBody"
-                    android:text="Esconde o ícone da tela inicial. Para abrir o app de novo, digite *#*#SUA SENHA#*#* no app de Telefone: o ícone reaparece por alguns minutos. Toque nele para abrir; ao sair do app ele se esconde de novo. O bloqueio continua funcionando com o ícone escondido." />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Apps de banco -->
         <LinearLayout style="@style/HelpBlock">
             <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_lock" />
             <LinearLayout style="@style/HelpTexts">
                 <TextView style="@style/HelpTitle" android:text="Apps de banco" />
                 <TextView
                     style="@style/HelpBody"
-                    android:text="Bancos como o Nubank bloqueiam o acesso quando um app de fora da Play Store está com a Acessibilidade ligada. É uma proteção contra golpes, não quer dizer que o BloqueiaShorts seja perigoso. Antes de abrir o banco, toque em “Desligar para usar app de banco” na tela principal; depois, toque em “Religar a proteção”." />
+                    android:text="Esta versão foi feita para não assustar os bancos: não lê o que você digita, não vê outros apps e não precisa de modo desenvolvedor nem de computador. Mesmo assim, alguns bancos recusam qualquer Acessibilidade de fora da Play Store. Se o seu recusar, toque em “Desligar para usar app de banco” e religue depois." />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 6. Problemas -->
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_info" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Por que o app mudou (versão 2.0)" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="As versões 1.x vigiavam o discador, as Configurações e vários apps, e eram instaladas com o modo desenvolvedor ligado. Para um app de banco, isso parece um golpe de “mão fantasma” — e vários bancos pararam de abrir. A 2.0 tira tudo isso: bloqueia só os Shorts do YouTube, o ícone é escondido pelo próprio celular e não existe mais proteção contra desinstalar." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_eye_off" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Esconder o ícone" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="Use a opção de ocultar apps do seu celular (Samsung, Xiaomi, Oppo e outros têm). Para abrir com o ícone escondido: Acessibilidade → BloqueiaShorts → Configurações." />
+            </LinearLayout>
+        </LinearLayout>
+
         <LinearLayout style="@style/HelpBlock">
             <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_warning" />
             <LinearLayout style="@style/HelpTexts">
                 <TextView style="@style/HelpTitle" android:text="Se parar de bloquear" />
                 <TextView
                     style="@style/HelpBody"
-                    android:text="Alguns celulares (Xiaomi, Samsung) desligam apps em segundo plano. Em Informações do app, ligue “Inicialização automática” e coloque a bateria em “Sem restrições”. Se mesmo assim parar, desligue e ligue o BloqueiaShorts em Acessibilidade." />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- 7. Esqueci a senha -->
-        <LinearLayout style="@style/HelpBlock">
-            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_info" />
-            <LinearLayout style="@style/HelpTexts">
-                <TextView style="@style/HelpTitle" android:text="Esqueci a senha" />
-                <TextView
-                    style="@style/HelpBody"
-                    android:text="Reinicie o celular em modo de segurança (segure o botão de desligar e depois segure “Desligar”). Nesse modo o app não roda e pode ser desinstalado. Também dá para desinstalar por um computador com adb." />
+                    android:text="Alguns celulares (Xiaomi, Samsung) desligam apps em segundo plano. Coloque a bateria em “Sem restrições” e, na Xiaomi, ligue “Inicialização automática”. Se mesmo assim parar, desligue e ligue o BloqueiaShorts em Acessibilidade." />
             </LinearLayout>
         </LinearLayout>
 

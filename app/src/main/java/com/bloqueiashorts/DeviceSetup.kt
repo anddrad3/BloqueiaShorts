@@ -11,14 +11,13 @@ import android.provider.Settings
 
 /**
  * Ajustes do sistema que o app precisa para funcionar bem: bateria sem restrições e,
- * na Xiaomi, inicialização automática e "janelas pop-up em segundo plano".
+ * na Xiaomi, inicialização automática.
  * Os estados da Xiaomi são lidos por um método não oficial; quando não dá para ler, retorna null.
  */
 object DeviceSetup {
 
     /** Códigos internos da MIUI/HyperOS. */
     private const val MIUI_OP_AUTOSTART = 10008
-    private const val MIUI_OP_BACKGROUND_START = 10021
 
     fun isXiaomi() = Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true) ||
         Build.BRAND.lowercase() in setOf("xiaomi", "redmi", "poco")
@@ -27,8 +26,6 @@ object DeviceSetup {
         c.getSystemService(PowerManager::class.java).isIgnoringBatteryOptimizations(c.packageName)
 
     fun isAutostartAllowed(c: Context) = miuiOpAllowed(c, MIUI_OP_AUTOSTART)
-
-    fun isBackgroundPopupAllowed(c: Context) = miuiOpAllowed(c, MIUI_OP_BACKGROUND_START)
 
     private fun miuiOpAllowed(c: Context, op: Int): Boolean? = try {
         val ops = c.getSystemService(AppOpsManager::class.java)
@@ -57,14 +54,6 @@ object DeviceSetup {
         Intent().setComponent(
             ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")
         ),
-        appDetails(c)
-    )
-
-    fun openPopupSettings(c: Context) = startFirst(
-        c,
-        Intent("miui.intent.action.APP_PERM_EDITOR")
-            .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
-            .putExtra("extra_pkgname", c.packageName),
         appDetails(c)
     )
 

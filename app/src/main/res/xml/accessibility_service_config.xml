@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Ao adicionar um app em Rules.kt, inclua o pacote também em android:packageNames. -->
+<!--
+    De propósito, o serviço pede o MÍNIMO (desde a versão 2.0):
+    - só recebe eventos do app do YouTube (packageNames);
+    - só eventos de mudança de tela, nada de texto digitado;
+    - não faz gestos (sem canPerformGestures) e não filtra teclas.
+    Apps de banco desconfiam de serviços que vigiam o celular inteiro. Não adicione outros apps aqui.
+
+    settingsActivity: mostra um botão "Configurações" em Acessibilidade > BloqueiaShorts,
+    que abre o app mesmo com o ícone escondido pelo próprio celular.
+-->
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/service_description"
-    android:packageNames="com.google.android.youtube,com.instagram.android,com.zhiliaoapp.musically,com.ss.android.ugc.trill,com.zhiliaoapp.musically.go,com.ss.android.ugc.aweme,com.kwai.video,com.smile.gifmaker,com.android.chrome,com.chrome.beta,com.brave.browser,com.microsoft.emmx,com.kiwibrowser.browser,org.mozilla.firefox,com.sec.android.app.sbrowser,com.mi.globalbrowser,com.opera.browser,com.opera.mini.native,com.duckduckgo.mobile.android,com.android.settings,com.miui.securitycenter,com.android.packageinstaller,com.google.android.packageinstaller,com.miui.packageinstaller,com.google.android.dialer,com.android.contacts,com.android.dialer,com.samsung.android.dialer"
-    android:accessibilityEventTypes="typeWindowStateChanged|typeWindowContentChanged|typeViewScrolled|typeViewTextChanged"
+    android:packageNames="com.google.android.youtube"
+    android:accessibilityEventTypes="typeWindowStateChanged|typeWindowContentChanged"
     android:accessibilityFeedbackType="feedbackGeneric"
     android:accessibilityFlags="flagReportViewIds"
     android:canRetrieveWindowContent="true"
-    android:notificationTimeout="50" />
+    android:notificationTimeout="100"
+    android:settingsActivity="com.bloqueiashorts.MainActivity" />

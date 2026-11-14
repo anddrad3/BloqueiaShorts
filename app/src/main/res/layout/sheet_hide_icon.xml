@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/sheetContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/sheetIcon"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_circle"
+            android:backgroundTint="@color/accent_container"
+            android:importantForAccessibility="no"
+            android:padding="18dp"
+            android:src="@drawable/ic_eye_off"
+            android:tint="@color/accent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="Esconder o ícone"
+            android:textColor="@color/on_surface"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:text="O próprio celular esconde o ícone. O BloqueiaShorts continua bloqueando normalmente — só some da tela inicial e da gaveta de apps. Os nomes dos menus mudam um pouco de versão para versão."
+            android:textColor="@color/muted"
+            android:textSize="14sp" />
+
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox" android:importantForAccessibility="no" android:src="@drawable/ic_shield_check" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Samsung (One UI)" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="1. Abra a gaveta de apps (deslize para cima na tela inicial).\n2. Toque nos ⋮ → Configurações.\n3. Toque em “Ocultar apps nas telas Início e Aplicativos”.\n4. Marque o BloqueiaShorts → Concluído." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox" android:importantForAccessibility="no" android:src="@drawable/ic_shield_check" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Xiaomi, Redmi, Poco (MIUI / HyperOS)" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="1. Configurações → Apps → Bloqueio de apps (em algumas versões: app Segurança → Bloqueio de apps).\n2. Crie o padrão ou a senha, se pedir.\n3. Toque na engrenagem ⚙ ou na aba “Ocultar apps” → ligue o BloqueiaShorts.\n\nPara ver os apps ocultos: na tela inicial, afaste dois dedos (gesto de zoom) e digite a senha." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox" android:importantForAccessibility="no" android:src="@drawable/ic_shield_check" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Oppo, Realme, OnePlus (ColorOS)" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="Configurações → Privacidade → Ocultar apps → ligue o BloqueiaShorts. O sistema pede um código de acesso, que você digita no app Telefone para ver os apps ocultos." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_info" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Motorola, Pixel e outros" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="Muitos desses celulares não têm a opção no launcher padrão. Dá para usar um launcher da Play Store que oculta apps (Nova Launcher, Niagara, Smart Launcher) — ou só colocar o BloqueiaShorts numa pasta com outro nome." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_accessibility" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Como abrir com o ícone escondido" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="Em qualquer celular: Configurações → Acessibilidade → Apps baixados (ou Serviços instalados) → BloqueiaShorts → Configurações. Isso abre o app direto." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/HelpBlock">
+            <ImageView style="@style/RowIconBox.Accent" android:importantForAccessibility="no" android:src="@drawable/ic_warning" />
+            <LinearLayout style="@style/HelpTexts">
+                <TextView style="@style/HelpTitle" android:text="Não use Espaço privado nem Pasta Segura" />
+                <TextView
+                    style="@style/HelpBody"
+                    android:text="Apps dentro do “Espaço privado” (Android 15) ou da “Pasta Segura” (Samsung) param de rodar quando o espaço é trancado — e o bloqueio para junto. Use só a opção de ocultar apps." />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSheetPrimary"
+            style="@style/PillButton"
+            android:layout_marginTop="24dp"
+            android:text="Entendi" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -240,33 +240,6 @@
 
                     <ImageView style="@style/RowChevron" />
                 </LinearLayout>
-
-                <View
-                    android:id="@+id/dividerSetupPopup"
-                    style="@style/Divider" />
-
-                <LinearLayout
-                    android:id="@+id/rowSetupPopup"
-                    style="@style/Row">
-
-                    <ImageView
-                        android:id="@+id/iconSetupPopup"
-                        style="@style/RowIconBox"
-                        android:importantForAccessibility="no" />
-
-                    <LinearLayout style="@style/RowTexts">
-
-                        <TextView
-                            style="@style/RowTitle"
-                            android:text="Janelas pop-up em segundo plano" />
-
-                        <TextView
-                            android:id="@+id/subSetupPopup"
-                            style="@style/RowSub" />
-                    </LinearLayout>
-
-                    <ImageView style="@style/RowChevron" />
-                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -338,7 +311,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Modo invisível -->
+        <!-- Esconder o app (pelo próprio celular) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/stealthCard"
             style="@style/Card">
@@ -351,7 +324,7 @@
 
                 <TextView
                     style="@style/SectionTitle"
-                    android:text="Modo invisível" />
+                    android:text="Esconder o app" />
 
                 <LinearLayout
                     android:id="@+id/rowHide"
@@ -366,46 +339,40 @@
 
                         <TextView
                             style="@style/RowTitle"
-                            android:text="Esconder ícone" />
-
-                        <TextView
-                            android:id="@+id/rowHideSub"
-                            style="@style/RowSub" />
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchHide"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false" />
-                </LinearLayout>
-
-                <View style="@style/Divider" />
-
-                <LinearLayout
-                    android:id="@+id/rowHowItWorks"
-                    style="@style/Row">
-
-                    <ImageView
-                        style="@style/RowIconBox.Accent"
-                        android:importantForAccessibility="no"
-                        android:src="@drawable/ic_dialpad" />
-
-                    <LinearLayout style="@style/RowTexts">
-
-                        <TextView
-                            style="@style/RowTitle"
-                            android:text="Como reabrir o app" />
+                            android:text="Como esconder o ícone" />
 
                         <TextView
                             style="@style/RowSub"
-                            android:text="Código secreto no discador: *#*#SUASENHA#*#*" />
+                            android:text="Pelo próprio celular: Samsung, Xiaomi, Motorola e outros" />
                     </LinearLayout>
 
                     <ImageView style="@style/RowChevron" />
                 </LinearLayout>
 
+                <View style="@style/Divider" />
+
+                <LinearLayout
+                    android:id="@+id/rowReopen"
+                    style="@style/Row">
+
+                    <ImageView
+                        style="@style/RowIconBox.Accent"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_accessibility" />
+
+                    <LinearLayout style="@style/RowTexts">
+
+                        <TextView
+                            style="@style/RowTitle"
+                            android:text="Abrir com o ícone escondido" />
+
+                        <TextView
+                            style="@style/RowSub"
+                            android:text="Acessibilidade → BloqueiaShorts → Configurações" />
+                    </LinearLayout>
+
+                    <ImageView style="@style/RowChevron" />
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -431,7 +398,7 @@
 
                     <TextView
                         style="@style/RowSub"
-                        android:text="Bloqueio, senha, proteção e modo invisível" />
+                        android:text="Bloqueio, senha, bancos e por que o app mudou" />
                 </LinearLayout>
 
                 <ImageView style="@style/RowChevron" />
@@ -452,6 +419,17 @@
                 <TextView
                     style="@style/SectionTitle"
                     android:text="O que é bloqueado" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="20dp"
+                    android:lineSpacingExtra="2dp"
+                    android:text="Só os Shorts no app do YouTube. Vídeos normais, busca, inscrições e todos os outros apps continuam livres — o BloqueiaShorts nem enxerga os outros apps."
+                    android:textColor="@color/muted"
+                    android:textSize="14sp" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chips"
